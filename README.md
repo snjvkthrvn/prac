@@ -6,6 +6,8 @@ practice for learning
 `kural-vazhi/index.html` is a self-contained page for relearning Tamil through the Thirukkural.
 Open it in a browser; it needs no build step.
 
+- a Basics unit of seven lessons (vowels, consonants, vowel signs, reading words, verbs,
+  case endings, sandhi), each ending in a drill, plus a mixed review that repeats weak spots
 - 20 kurals in five units, each taken apart word by word, with today's Tamil equivalents
 - one grammar point per lesson (sandhi, the -க command, அன்று/அல்ல/இல்லை, ஃ, and more)
 - a reading guide in two styles: spoken (agara mudhala…) and precise ISO 15919 (akara mutala…)
