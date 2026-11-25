@@ -1,0 +1,1310 @@
+<title>Kural Vazhi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Relearn Tamil one Thirukkural couplet at a time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Catamaran:wght@600;800&family=Noto+Sans:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Serif+Tamil:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column. The couplet sits on a palm-leaf card; the commentary (உரை) unfolds beneath it, the way a teacher's notes follow a verse. */
+:root{
+  --bg:#F2F5F0;
+  --surface:#FFFFFF;
+  --leaf:#FAF2DA;
+  --leaf-edge:#E6D7A6;
+  --ink:#132A2C;
+  --ink-2:#4A605F;
+  --line:#D4DDD6;
+  --accent:#0B6B66;
+  --accent-soft:#DCEEEA;
+  --on-accent:#FFFFFF;
+  --turmeric:#A86E05;
+  --turmeric-soft:#F6E4AE;
+  --good:#2C7748;
+  --good-soft:#E1F1E6;
+  --bad:#AD3F2C;
+  --bad-soft:#F8E3DE;
+  --hole:#F2F5F0;
+  --f-display:"Catamaran","Noto Sans Tamil",system-ui,sans-serif;
+  --f-kural:"Noto Serif Tamil","Noto Sans Tamil",serif;
+  --f-body:"Noto Sans","Noto Sans Tamil",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-ta:"Noto Sans Tamil","Catamaran",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1819;--surface:#132325;--leaf:#1F261C;--leaf-edge:#3A3B26;--ink:#E6EEEA;--ink-2:#9BB0AB;--line:#263B3C;
+    --accent:#5CC1B6;--accent-soft:#173634;--on-accent:#04201E;--turmeric:#E6B444;--turmeric-soft:#3A3117;
+    --good:#72C793;--good-soft:#16301F;--bad:#EC8D78;--bad-soft:#3A1D17;--hole:#0D1819;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1819;--surface:#132325;--leaf:#1F261C;--leaf-edge:#3A3B26;--ink:#E6EEEA;--ink-2:#9BB0AB;--line:#263B3C;
+  --accent:#5CC1B6;--accent-soft:#173634;--on-accent:#04201E;--turmeric:#E6B444;--turmeric-soft:#3A3117;
+  --good:#72C793;--good-soft:#16301F;--bad:#EC8D78;--bad-soft:#3A1D17;--hole:#0D1819;color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+[lang="ta"]{font-family:var(--f-ta);letter-spacing:0}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--turmeric);outline-offset:2px;border-radius:6px}
+.wrap{max-width:800px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.muted{color:var(--ink-2)}
+.small{font-size:.86rem}
+.tnum{font-variant-numeric:tabular-nums}
+.eyebrow{font:600 .74rem/1.3 var(--f-body);letter-spacing:.11em;text-transform:uppercase;color:var(--accent);margin:0}
+.eyebrow [lang="ta"]{text-transform:none;font-size:.86rem;font-weight:600}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-weight:800;font-size:clamp(1.9rem,5.2vw,2.6rem);letter-spacing:-.01em}
+h2{font-weight:800;font-size:1.45rem;margin:.35rem 0 1rem}
+h3{font-weight:800;font-size:1.2rem;margin:.25rem 0 .5rem}
+p{margin:0 0 .8rem}
+.lede{font-size:1.06rem;color:var(--ink-2);max-width:62ch}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding-block:10px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--ink)}
+.brand-ta{font:800 1.4rem/1 var(--f-display)}
+.brand-en{font:600 .72rem/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.tabs{display:flex;gap:4px}
+.tabs a{padding:7px 13px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:.93rem}
+.tabs a:hover{color:var(--ink);background:var(--surface)}
+.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+
+main{padding-block:28px 56px}
+.sec{margin-top:48px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 .94rem/1.2 var(--f-body);padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.small{padding:7px 12px;font-size:.86rem}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:.55;cursor:default}
+.linkbtn{background:none;border:0;padding:4px 2px;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.icon{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent);cursor:pointer;flex:none}
+.icon:hover{border-color:var(--accent)}
+body.no-speech .spk{display:none!important}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:9px 12px;font-size:.88rem;font-weight:600;color:var(--ink-2);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+.seg-label{font-size:.8rem;color:var(--ink-2)}
+.seg-wrap{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* translit */
+.tr{font-family:"Noto Sans",var(--f-body);font-style:italic;color:var(--ink-2)}
+body.tr-off .tr{display:none!important}
+
+/* the leaf */
+.leaf{position:relative;background:var(--leaf);border:1px solid var(--leaf-edge);border-radius:14px/26px;padding:30px 22px 22px 54px}
+.leaf::before{content:"";position:absolute;left:21px;top:50%;width:13px;height:13px;margin-top:-6.5px;border-radius:50%;background:var(--hole);border:1px solid var(--leaf-edge);box-shadow:inset 0 1px 2px rgba(0,0,0,.18)}
+.folio{position:absolute;top:9px;right:16px;font:600 .95rem/1 var(--f-kural);color:var(--turmeric)}
+.folio small{font:600 .72rem var(--f-body);color:var(--ink-2);margin-left:6px;letter-spacing:.04em}
+.k-line{display:flex;flex-wrap:wrap;gap:2px 4px}
+.k-line+.k-line{margin-top:10px}
+.cir{display:inline-flex;flex-direction:column;align-items:flex-start;background:transparent;border:0;border-bottom:2px solid transparent;border-radius:8px 8px 2px 2px;padding:4px 7px 5px;cursor:pointer;text-align:left}
+.cir:hover{background:var(--turmeric-soft)}
+.cir[aria-pressed="true"]{background:var(--turmeric-soft);border-bottom-color:var(--turmeric)}
+.cir-ta,.k-ta{font-family:var(--f-kural);font-size:clamp(1.3rem,4.4vw,1.85rem);line-height:1.35;font-weight:600}
+.cir-tr{font-size:.86rem;line-height:1.3}
+.k-static .k-line{gap:2px 14px}
+.k-static .k-ta{font-size:clamp(1.2rem,4vw,1.6rem)}
+.meter{font-size:.86rem;color:var(--ink-2);margin:.6rem 0 0}
+.cir-info{margin-top:12px;padding:12px 14px;border-left:3px solid var(--turmeric);background:var(--surface);border-radius:0 10px 10px 0;font-size:.95rem}
+.cir-info .bit{display:inline}
+.cir-info .plus{color:var(--ink-2);margin:0 6px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.toolbar .grow{flex:1}
+.split{margin-top:14px;padding:14px 16px;border:1px dashed var(--leaf-edge);border-radius:12px}
+.split-ta{font-family:var(--f-kural);font-size:1.15rem;margin:0 0 .2rem}
+
+/* lesson head */
+.crumbs{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;font-size:.92rem}
+.crumbs a{font-weight:600;text-decoration:none}
+.l-head{margin-bottom:22px}
+.l-head h1{margin:.4rem 0 .35rem}
+
+/* words */
+.words{border-bottom:1px solid var(--line)}
+.w{display:grid;grid-template-columns:minmax(0,12.5rem) minmax(0,1fr) auto;gap:4px 20px;padding:14px 10px;border-top:1px solid var(--line);border-radius:10px;cursor:pointer;transition:background .15s}
+.w.hl{background:var(--turmeric-soft)}
+.w-ta{display:block;font:600 1.3rem/1.35 var(--f-ta)}
+.w-tr{display:block;font-size:.9rem}
+.w-g{font-weight:600;margin:0 0 .2rem}
+.w-n{font-size:.92rem;color:var(--ink-2);margin:0 0 .35rem}
+.w-m{font-size:.9rem;margin:0}
+.label{display:inline-block;font:600 .68rem/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 6px;border-radius:5px;margin-right:6px;vertical-align:1px}
+
+/* meaning */
+.en-mean{font-size:1.18rem;line-height:1.55;max-width:60ch}
+.modern{margin-top:16px;padding:16px 18px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.ta-prose{font-size:1.08rem;line-height:1.75;margin:.5rem 0 .4rem}
+
+/* grammar */
+.gram-b{max-width:64ch}
+.ex{display:grid;gap:0;border-top:1px solid var(--line);margin-top:6px}
+.ex-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:4px 18px;padding:10px 4px;border-bottom:1px solid var(--line)}
+.ex-ta{font-size:1.05rem}
+.ex-ta .tr{display:block;font-size:.85rem}
+.ex-en{color:var(--ink-2)}
+
+/* quiz */
+.q{padding:16px 0;border-top:1px solid var(--line)}
+.q-prompt{font-weight:600;margin-bottom:.6rem}
+.q-prompt .ta-in{font:600 1.15rem var(--f-ta)}
+.q-big{font:600 clamp(1.6rem,6vw,2.2rem)/1.3 var(--f-kural);margin:.2rem 0 .8rem}
+.q-kural{font-family:var(--f-kural);font-size:1.12rem;line-height:1.7;margin:0 0 .8rem;padding:10px 14px;background:var(--leaf);border-radius:10px;border:1px solid var(--leaf-edge)}
+.blank{display:inline-block;min-width:4.5em;border-bottom:2px solid var(--turmeric);margin:0 2px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.opt{text-align:left;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt[lang="ta"]{font-size:1.08rem}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.q-fb{margin:.7rem 0 0;font-size:.95rem}
+.q-fb:empty{display:none}
+.done-box{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:22px;padding:16px;border-radius:12px;background:var(--accent-soft)}
+
+/* ask */
+.ask{display:none}
+body.has-ask .ask{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.88rem;cursor:pointer;text-align:left}
+.chip-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ask-row{display:flex;gap:8px}
+.ask-row input{flex:1;min-width:0;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.answer{margin-top:14px;padding:16px 18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:.98rem}
+.answer p:last-child{margin-bottom:0}
+.answer ul{margin:0 0 .8rem;padding-left:1.2rem}
+.ask-note{font-size:.85rem;color:var(--ink-2);margin-top:8px}
+
+/* pager */
+.pager{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:52px}
+.pager a{display:block;padding:14px 16px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);background:var(--surface)}
+.pager a:hover{border-color:var(--accent)}
+.pager .next{text-align:right;grid-column:2}
+.pager small{display:block;color:var(--ink-2);font-size:.8rem;margin-bottom:2px}
+
+/* learn index */
+.intro{margin-bottom:26px}
+.intro h1{font-size:clamp(2.3rem,7vw,3.3rem);margin:.35rem 0 .6rem}
+.today{margin-bottom:12px}
+.today-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
+.today .theme{font:800 1.15rem/1.3 var(--f-display);margin:14px 0 14px}
+.path-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.strip{display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:3px;margin:4px 0 6px}
+.strip i{height:8px;border-radius:2px;background:var(--line)}
+.strip i.on{background:var(--accent)}
+.strip i.cur{background:var(--turmeric)}
+.unit{margin-top:30px}
+.unit h3{margin-bottom:8px}
+.row{display:grid;grid-template-columns:2.2rem minmax(0,1fr) 28px;gap:12px;align-items:center;padding:13px 8px;border-top:1px solid var(--line);text-decoration:none;color:inherit;border-radius:10px}
+.row:hover{background:var(--surface)}
+.row .num{font:700 1.05rem var(--f-display);color:var(--ink-2)}
+.row.is-next .num{color:var(--turmeric)}
+.row .first{display:block;font:600 1.1rem/1.4 var(--f-kural)}
+.row .meta{display:block;font-size:.88rem;color:var(--ink-2)}
+.row .mark{color:var(--accent);display:grid;place-items:center}
+.chip{display:inline-block;font-size:.78rem;padding:1px 8px;border-radius:999px;border:1px solid var(--line);margin-left:4px;white-space:nowrap}
+
+/* letters */
+.tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 4px 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;min-width:0}
+.tile:hover{border-color:var(--accent)}
+.tile .big{font:600 1.75rem/1.2 var(--f-kural)}
+.tile .tl{font-size:.88rem;font-style:italic;color:var(--ink-2)}
+.tile .tag{font-size:.7rem;color:var(--ink-2)}
+.tile.long .big{color:var(--accent)}
+.mei-row{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:10px;align-items:center;margin-bottom:8px}
+.mei-row .rl{font-size:.85rem;line-height:1.3}
+.mei-row .rl b{display:block;font:600 .95rem var(--f-ta)}
+.cons-pick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.cons-pick button{min-width:44px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font:600 1.15rem var(--f-kural);cursor:pointer}
+.cons-pick button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.tile .eq{font-size:.72rem;color:var(--ink-2)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:12px;background:var(--surface)}
+.grid216{border-collapse:collapse;font-family:var(--f-kural);font-size:1.1rem}
+.grid216 th,.grid216 td{padding:6px 9px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.grid216 th{font-weight:600;color:var(--accent);background:var(--accent-soft);position:sticky;top:0}
+.grid216 th:first-child{position:sticky;left:0}
+.grid216 td:first-child{position:sticky;left:0;background:var(--surface);color:var(--accent);font-weight:600}
+details summary{cursor:pointer;font-weight:600;color:var(--accent);margin-top:14px}
+.tricky{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.trick{padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-width:0}
+.trick h3{font-family:var(--f-kural);font-size:1.5rem}
+.trick p{font-size:.92rem;color:var(--ink-2)}
+.say-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)}
+.say-row .sw{font:600 1.15rem var(--f-ta)}
+.say-row .sg{font-size:.88rem;color:var(--ink-2);flex:1;min-width:0}
+.nums{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px}
+.nums div{text-align:center;padding:8px 2px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.nums b{display:block;font:600 1.4rem var(--f-kural)}
+.nums span{font-size:.78rem;color:var(--ink-2)}
+
+/* practice */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.stat .num{display:block;font:800 2rem/1.1 var(--f-display);font-variant-numeric:tabular-nums}
+.stat .lab{font-size:.85rem;color:var(--ink-2)}
+.panel{padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.card{background:var(--leaf);border:1px solid var(--leaf-edge);border-radius:16px;padding:24px 20px;text-align:center}
+.card-meta{font-size:.82rem;color:var(--ink-2)}
+.card-ta{font:600 clamp(2.1rem,9vw,3.1rem)/1.25 var(--f-kural);margin:.4rem 0 .5rem}
+.card-ctx{font-family:var(--f-kural);font-size:1rem;color:var(--ink-2)}
+.card-ctx mark{background:var(--turmeric-soft);color:var(--ink);border-radius:4px;padding:0 3px}
+.card-back{margin:14px auto 0;max-width:46ch}
+.card-back .tr{display:block;font-size:1.05rem}
+.card-g{font-weight:600;font-size:1.1rem;margin:.3rem 0}
+.card-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:18px}
+.result{font:800 2.2rem/1 var(--f-display);margin:.2rem 0 .6rem}
+.miss{padding:10px 0;border-top:1px solid var(--line);font-size:.94rem}
+
+footer.foot{padding-block:24px 40px;border-top:1px solid var(--line);font-size:.85rem;color:var(--ink-2)}
+footer.foot p{margin:0 0 .4rem}
+
+@media (prefers-reduced-motion: no-preference){
+  .q-fb,.answer,.card-back{animation:rise .25s ease-out}
+  @keyframes rise{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+}
+@media (max-width:640px){
+  .w{grid-template-columns:minmax(0,1fr) auto}
+  .w-left{grid-column:1}
+  .w-right{grid-column:1/-1}
+  .w .icon{grid-column:2;grid-row:1}
+  .tricky{grid-template-columns:1fr}
+  .nums{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  .leaf{padding:30px 12px 18px 40px}
+  .leaf::before{left:14px}
+  .opts{grid-template-columns:1fr}
+  .tiles.uyir{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .tiles{gap:5px}
+  .tile .big{font-size:1.45rem}
+  .mei-row{grid-template-columns:1fr}
+  .ex-row{grid-template-columns:1fr}
+  .stat{padding:12px}
+  .stat .num{font-size:1.6rem}
+  .pager{grid-template-columns:1fr}
+  .pager .next{grid-column:1}
+}
+</style>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#learn"><span class="brand-ta" lang="ta">குறள் வழி</span><span class="brand-en">Kural Vazhi</span></a>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#learn" data-tab="learn">Learn</a>
+      <a href="#letters" data-tab="letters">Letters</a>
+      <a href="#practice" data-tab="practice">Practice</a>
+    </nav>
+  </div>
+</header>
+<main id="app" class="wrap"></main>
+<footer class="foot">
+  <div class="wrap">
+    <p id="saveNote">Your progress is saved in this browser.</p>
+    <p>Kural text follows the standard printed edition. Translations, word notes and the modern Tamil renderings are study aids written for this course, not a scholarly commentary.</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+/* ───────────── content ───────────── */
+const UNITS=[
+ {k:1,ta:"தொடக்கம்",en:"First steps",from:0,to:3},
+ {k:2,ta:"இன்சொல்",en:"Kind words",from:3,to:7},
+ {k:3,ta:"அன்பும் நட்பும்",en:"Love and friendship",from:7,to:11},
+ {k:4,ta:"அறிவு",en:"Wisdom",from:11,to:15},
+ {k:5,ta:"முயற்சி",en:"Effort and the world",from:15,to:20}
+];
+// w: [tamil, gloss, note, today's equivalent, foot index or indexes]
+// a "|" inside a foot marks a word boundary for the reading guide; it is never displayed.
+const LESSONS=[
+{n:1,ch:[1,"கடவுள் வாழ்த்து","In praise of God"],theme:"The first letter, the first cause",
+lines:[["அகர","முதல","எழுத்தெல்லாம்","ஆதி"],["பகவன்","முதற்றே","உலகு"]],
+split:"அகரம் முதல எழுத்து எல்லாம் ஆதி பகவன் முதற்று ஏ உலகு",
+w:[
+["அகர","the letter அ (a)","அகரம் is the name of the letter அ. Tamil names a letter by adding -கரம்: அகரம், இகரம், ககரம். The final ம் drops here.","அ என்ற எழுத்து",0],
+["முதல","having as their first","From முதல் 'first'. The -அ ending makes it a plural predicate: '(letters) have அ as their first'.","முதலாகக் கொண்டவை",1],
+["எழுத்து","letter","The same word today: a letter, or writing. From எழுது 'write'.","எழுத்துகள்",2],
+["எல்லாம்","all","Follows the noun it covers. எழுத்து + எல்லாம் → எழுத்தெல்லாம்: the உ drops before a vowel.","எல்லாம்",2],
+["ஆதி","primordial, first of all","A Sanskrit loan still in use: ஆதி காலம் 'ancient times'.","முதன்மையான",3],
+["பகவன்","God","From Sanskrit bhagavān. Tamil has no separate letter for b, so ப covers both sounds.","கடவுள்",4],
+["முதற்று","has (God) as its first","முதல் + -து, an ending that turns a noun into a predicate: 'it is first-having'. ல் + த becomes ற்ற.","முதலாகக் கொண்டது",5],
+["ஏ","indeed (emphasis)","The particle -ஏ stresses the word it joins. Speech uses it all the time: அவனே 'he himself'.","-ஏ",5],
+["உலகு","the world","Classical form of உலகம். The subject comes last here; poetry moves words to fit the metre.","உலகம்",6]],
+en:"As the letter A is the first of all letters, the eternal God is the first of the world.",
+ta:"எழுத்துகள் எல்லாம் அகரத்தை முதலாகக் கொண்டிருக்கின்றன. அதுபோல உலகம் கடவுளை முதலாகக் கொண்டிருக்கிறது.",
+gram:{t:"Word order and the emphatic ஏ",b:"Tamil puts the verb last, but a kural bends word order to fit its metre, so read for the endings rather than the positions. Here the subject உலகு sits after its own predicate முதற்றே. The particle ஏ adds weight to the word it joins, and you already use it in speech.",
+ex:[["நானே செய்தேன்","I did it myself"],["இப்போதே வா","Come right now"],["அவளே சொன்னாள்","She said so herself"]]}},
+
+{n:391,ch:[40,"கல்வி","Learning"],theme:"Learn it well, then live it",
+lines:[["கற்க","கசடறக்","கற்பவை","கற்றபின்"],["நிற்க","அதற்குத்","தக"]],
+split:"கற்க கசடு அறக் கற்பவை கற்ற பின் நிற்க அதற்குத் தக",
+w:[
+["கற்க","learn! / one should learn","Root கல் 'learn' + -க, the ending for a wish or a command (வியங்கோள்). Before க, the ல் of கல் turns into ற்.","கற்றுக்கொள்ள வேண்டும்",0],
+["கசடு","flaw, impurity","Literally dregs or sediment. கசடு அற means with no flaw left: thoroughly.","குறை",1],
+["அற","so that it is removed","Infinitive of அறு 'be cut off, end'. கசடு + அற → கசடற: the உ drops before a vowel.","நீங்கும்படி",1],
+["கற்பவை","the things to be learned","கல் + -ப- (future) + அவை 'those things': 'what one learns'. ல் becomes ற் again before ப.","கற்க வேண்டியவை",2],
+["கற்ற","learned, having learned","Past form of கல் used before a noun: 'which was learned'.","கற்ற",3],
+["பின்","after","Follows the verb: கற்ற பின் 'after learning'. Spoken: படிச்ச பிறகு.","பிறகு",3],
+["நிற்க","stand firm! / one should abide","Root நில் 'stand' + -க, built exactly like கற்க.","நடக்க வேண்டும்",4],
+["அதற்கு","to that, for that","அது 'that' + -க்கு 'to'. The -அற்று- in between is a connector that carries no meaning.","அதற்கு",5],
+["தக","fittingly, in keeping with","Infinitive of தகு 'be fit'. Same root as தகுதி 'qualification'.","ஏற்றபடி",6]],
+en:"Learn thoroughly, without flaw, whatever is worth learning. Once you have learned it, live in keeping with it.",
+ta:"கற்க வேண்டியவற்றைப் பிழையில்லாமல் முழுமையாகக் கற்க வேண்டும். கற்ற பிறகு, அந்தக் கல்விக்கு ஏற்றபடி நடக்க வேண்டும்.",
+gram:{t:"The -க ending: வாழ்க, கற்க, நிற்க",b:"Add -க to a verb root to say 'may it be so' or 'one should'. You already know it from வாழ்க!, 'long live!'. In this kural, roots ending in ல் change it to ற் before the hard consonant: கல் gives கற்க and கற்பவை, நில் gives நிற்க. Today you would write கற்றுக்கொள், or say கத்துக்கோ.",
+ex:[["வாழ்க!","Long live! (வாழ் + க)"],["கற்க","May one learn (கல் + க)"],["நிற்க","May one stand firm (நில் + க)"],["கத்துக்கோ","Learn it (spoken)"]]}},
+
+{n:396,ch:[40,"கல்வி","Learning"],theme:"Dig deeper, draw more",
+lines:[["தொட்டனைத்","தூறும்","மணற்கேணி","மாந்தர்க்குக்"],["கற்றனைத்","தூறும்","அறிவு"]],
+split:"தொட்ட அனைத்து ஊறும் மணல் கேணி மாந்தர்க்குக் கற்ற அனைத்து ஊறும் அறிவு",
+w:[
+["தொட்ட","dug","Past form of தொடு, which here means 'dig', not 'touch'.","தோண்டிய",0],
+["அனைத்து","as much as, to that extent","A measure word: தொட்ட அனைத்து 'as much as is dug', கற்ற அனைத்து 'as much as is learned'. Today அனைத்து means 'all'.","அளவுக்கு",[0,4]],
+["ஊறும்","springs up, wells up","ஊறு 'well up' + -உம். அனைத்து + ஊறும் → அனைத்தூறும், which the metre cuts as அனைத் | தூறும்.","ஊறும்",[1,5]],
+["மணல்","sand","ல் turns into ற் before க: மணல் + கேணி → மணற்கேணி.","மணல்",2],
+["கேணி","well, a spring-fed pit","A shallow well dug in sand, often in a dry riverbed.","கிணறு",2],
+["மாந்தர்க்கு","for people","மாந்தர் 'human beings' + -க்கு 'for'.","மனிதர்களுக்கு",3],
+["கற்ற","learned","Past form of கல் 'learn', as in Kural 391.","கற்ற",4],
+["அறிவு","knowledge, wisdom","From அறி 'know'. Everyday word; அறிவியல் is 'science'.","அறிவு",6]],
+en:"Water in a well dug in sand rises as deep as you dig. Knowledge in a person rises as much as they learn.",
+ta:"மணலில் தோண்டிய கிணற்றில், தோண்டிய அளவுக்கு நீர் ஊறும். அதுபோல மனிதர்களுக்கு, கற்ற அளவுக்கு அறிவு பெருகும்.",
+gram:{t:"When a vowel meets a vowel",b:"When a word ending in a short உ meets a word that starts with a vowel, the உ drops and the consonant before it joins the next vowel. Kurals do this constantly, and so does everyday speech. Undoing it is the first step in splitting a kural into words.",
+ex:[["அனைத்து + ஊறும் → அனைத்தூறும்","as much as + springs up"],["எழுத்து + எல்லாம் → எழுத்தெல்லாம்","all letters (Kural 1)"],["காசு + இல்லை → காசில்லை","no money"],["நாடு + எங்கும் → நாடெங்கும்","all over the country"]]}},
+
+{n:100,ch:[10,"இனியவைகூறல்","Speaking kindly"],theme:"Why pick the unripe fruit?",
+lines:[["இனிய","உளவாக","இன்னாத","கூறல்"],["கனியிருப்பக்","காய்|கவர்ந்","தற்று"]],
+split:"இனிய உள ஆக இன்னாத கூறல் கனி இருப்பக் காய் கவர்ந்த அற்று",
+w:[
+["இனிய","sweet, kind (words)","From இனி 'sweet'. Related: இனிப்பு 'sweets', இனிமை 'sweetness'.","இனிய சொற்கள்",0],
+["உள","there are","Plural of உண்டு 'there is'.","இருக்கின்றன",1],
+["ஆக","while, as","உள + ஆக → உளவாக, 'while they exist'. A வ் slips in to join the two vowels.","ஆக",1],
+["இன்னாத","harsh, unkind (words)","The opposite of இனிய: 'not sweet'.","கடுஞ்சொற்கள்",2],
+["கூறல்","speaking, saying","கூறு 'say' + -அல், which turns a verb into an '-ing' noun.","சொல்லுதல்",3],
+["கனி","ripe fruit","Still used. கனிவு means gentleness.","பழம்",4],
+["இருப்ப","while there is","Infinitive of இரு 'be'. கனி இருப்ப: 'with ripe fruit at hand'.","இருக்கும்போது",4],
+["காய்","unripe fruit","Any raw fruit or vegetable: மாங்காய் 'raw mango', வாழைக்காய் 'raw plantain'.","காய்",5],
+["கவர்ந்த","plucked, grabbed","Past form of கவர் 'seize'. The metre cuts it in two: கவர்ந் | தற்று.","பறித்த",5],
+["அற்று","is like that","Means 'is of that kind'. கவர்ந்த + அற்று → கவர்ந்தற்று. A common way for a kural to close a comparison.","போன்றது",6]],
+en:"Speaking harsh words when kind ones are at hand is like picking unripe fruit when ripe fruit is there for the taking.",
+ta:"இனிய சொற்கள் இருக்கும்போது கடுஞ்சொற்களைப் பேசுவது, கனிந்த பழம் இருக்கும்போது காயைப் பறித்து உண்பது போன்றது.",
+gram:{t:"Opposites with the negative -ஆ-",b:"Tamil often builds an opposite by slipping a negative -ஆ- into a verb form. In this kural இனிய (sweet) faces இன்னாத (not sweet). The ending -ஆத means 'which does not', and you will hear it in almost every conversation.",
+ex:[["தெரிந்த / தெரியாத","known / unknown"],["பேசும் / பேசாத","who speaks / who doesn't speak"],["முடிந்த / முடியாத","possible / impossible"],["இனிய / இன்னாத","sweet / harsh"]]}},
+
+{n:66,ch:[7,"மக்கட்பேறு","The blessing of children"],theme:"Sweeter than any flute",
+lines:[["குழலினிது","யாழினிது","என்பதம்","மக்கள்"],["மழலைச்சொல்","கேளா","தவர்"]],
+split:"குழல் இனிது யாழ் இனிது என்ப தம் மக்கள் மழலைச் சொல் கேளாதவர்",
+w:[
+["குழல்","flute","Also 'tube' or 'a lock of hair'. குழல் + இனிது → குழலினிது.","புல்லாங்குழல்",0],
+["இனிது","is sweet","இனி 'sweet' + -து 'it': a whole sentence in one word.","இனிமையானது",[0,1]],
+["யாழ்","yāḻ, the ancient Tamil harp","A stringed instrument of the Sangam age, long out of use. Jaffna's Tamil name, யாழ்ப்பாணம், is traditionally traced to a yāḻ player.","யாழ்",1],
+["என்ப","(they) say","An old plural form of என் 'say'.","என்பார்கள்",2],
+["தம்","their own","Plural of தன் 'one's own'. என்ப + தம் → என்பதம்.","தங்கள்",2],
+["மக்கள்","children","In this kural மக்கள் means one's own children. Today it usually means 'people'.","குழந்தைகள்",3],
+["மழலை","babble, a baby's first speech","Still used: மழலைச் சொல், and மழலையர் பள்ளி for kindergarten.","மழலை",4],
+["சொல்","word","Everyday word. சொல்லு means 'say'.","சொல்",4],
+["கேளாதவர்","those who have not heard","கேள் 'hear' + -ஆ- 'not' + -த + அவர் 'those people'. The metre splits it: கேளா | தவர்.","கேட்காதவர்கள்",[5,6]]],
+en:"'The flute is sweet, the yāḻ is sweet,' say those who have never heard the babble of their own children.",
+ta:"தம் குழந்தைகளின் மழலைச் சொல்லைக் கேட்காதவர்கள்தான் 'குழலோசை இனிது, யாழோசை இனிது' என்று சொல்வார்கள்.",
+gram:{t:"Words that changed meaning",b:"Classical Tamil is the same language you grew up around, but some words have drifted. Knowing the older sense can unlock a whole kural.",
+ex:[["மக்கள்","here: children · today: people"],["கேணி","then: a well · today: கிணறு"],["மாந்தர்","then: human beings · today: மனிதர்"],["நன்றி","then: a kindness done · today: thank you"]]}},
+
+{n:69,ch:[7,"மக்கட்பேறு","The blessing of children"],theme:"A mother's greatest joy",
+lines:[["ஈன்ற","பொழுதின்","பெரிதுவக்கும்","தன்மகனைச்"],["சான்றோன்","எனக்கேட்ட","தாய்"]],
+split:"ஈன்ற பொழுதின் பெரிது உவக்கும் தன் மகனைச் சான்றோன் எனக் கேட்ட தாய்",
+w:[
+["ஈன்ற","gave birth to","Past form of ஈன் 'bear a child'.","பெற்ற",0],
+["பொழுதின்","than (at) the time","பொழுது 'time' + -இன் 'than'. பொழுதுபோக்கு, 'pastime', uses the same word.","நேரத்தை விட",1],
+["பெரிது","greatly, more","From பெரு 'big'.","அதிகமாக",2],
+["உவக்கும்","rejoices","உவ 'be glad' + -க்கும். Related: உவகை 'joy'. பெரிது + உவக்கும் → பெரிதுவக்கும்.","மகிழ்வாள்",2],
+["தன்","her own","'One's own'. The plural is தம் (Kural 66).","தன்",3],
+["மகனை","son (as the object)","மகன் 'son' + -ஐ, the object marker. மகள் is 'daughter'.","மகனை",3],
+["சான்றோன்","a man of learning and character","From சால் 'be full, excel'. சான்றோர் means the wise and good.","அறிவும் பண்பும் நிறைந்தவன்",4],
+["என","as, that (quoting)","Marks what was said. The spoken form is -னு: நல்லவன்னு சொன்னாங்க.","என்று",5],
+["கேட்ட","who heard","Past form of கேள் 'hear'. ள் + ட → ட்ட.","கேட்ட",5],
+["தாய்","mother","Everyday word, alongside அம்மா.","தாய்",6]],
+en:"A mother who hears her son called a man of worth rejoices more than on the day she gave birth to him.",
+ta:"தன் மகனை 'சான்றோன்' என்று பிறர் சொல்லக் கேட்ட தாய், அவனைப் பெற்றெடுத்த நேரத்தில் அடைந்த மகிழ்ச்சியை விட அதிகமாக மகிழ்வாள்.",
+gram:{t:"'More than' with -இன்",b:"To say 'more than X', classical Tamil adds -இன் or -இனும் to X and follows it with a word like பெரிது. Modern Tamil uses -ஐ விட. The object marker -ஐ also appears here: மகனை, 'the son', is the one being called noble.",
+ex:[["பொழுதின் பெரிது","more than at that moment"],["தீயினும் அஞ்சப்படும்","feared even more than fire (Kural 202)"],["அவனை விட உயரம்","taller than him (modern)"]]}},
+
+{n:108,ch:[11,"செய்ந்நன்றியறிதல்","Gratitude"],theme:"Remember kindness, forget harm",
+lines:[["நன்றி","மறப்பது","நன்றன்று","நன்றல்லது"],["அன்றே","மறப்பது","நன்று"]],
+split:"நன்றி மறப்பது நன்று அன்று நன்று அல்லது அன்றே மறப்பது நன்று",
+w:[
+["நன்றி","a kindness received","Today நன்றி means 'thank you'. In the kural it is the good deed itself.","உதவி",0],
+["மறப்பது","forgetting","மற 'forget' + -ப்பது 'the act of'. Spoken: மறக்கறது.","மறப்பது",[1,5]],
+["நன்று","good, it is good","Classical 'it is good'. It appears three times, and that repetition is the wordplay.","நல்லது",[2,3,6]],
+["அன்று","is not","Denies what something is: நன்று அன்று 'is not good'.","அல்ல",2],
+["அல்லது","that which is not (good)","அல்ல 'not' + -து 'the thing'. நன்று அல்லது means a harm done to you. Today அல்லது also means 'or'.","தீமை",3],
+["அன்றே","that very day","A pun: here அன்று means 'that day', with -ஏ for emphasis, not 'is not'.","அன்றைக்கே",4]],
+en:"It is not good to forget a kindness done to you. It is good to forget a wrong done to you, that very day.",
+ta:"ஒருவர் நமக்குச் செய்த உதவியை மறப்பது நல்லதல்ல. அவர் செய்த தீமையை அன்றைக்கே மறந்துவிடுவது நல்லது.",
+gram:{t:"Saying 'is not': அன்று, அல்ல, இல்லை",b:"Tamil has two kinds of 'not'. அல்ல and அன்று deny what something is ('it is not good'). இல்லை denies that something exists ('there is none'). Speech uses இல்லை for both, but written Tamil keeps them apart.",
+ex:[["இது நன்று அன்று","this is not good (classical)"],["இது நல்லது அல்ல","this is not good (written)"],["இது நல்லது இல்லை","this isn't good (spoken)"],["பணம் இல்லை","there's no money"]]}},
+
+{n:80,ch:[8,"அன்புடைமை","Having love"],theme:"Love is what makes a body alive",
+lines:[["அன்பின்","வழியது","உயிர்நிலை","அஃதிலார்க்கு"],["என்பு|தோல்","போர்த்த","உடம்பு"]],
+split:"அன்பின் வழியது உயிர் நிலை அஃது இலார்க்கு என்பு தோல் போர்த்த உடம்பு",
+w:[
+["அன்பின்","of love","அன்பு 'love' + -இன் 'of'. The same -இன் meant 'than' in Kural 69; context decides.","அன்பின்",0],
+["வழியது","that which goes by the way of","வழி 'path' + -அது 'that which'.","வழியில் நடப்பது",1],
+["உயிர்","life","Also the grammar word for vowels: உயிர் எழுத்து, 'life letters'.","உயிர்",2],
+["நிலை","state, dwelling","உயிர்நிலை: a body that holds life.","நிலை",2],
+["அஃது","that","Old form of அது, written with ஃ, Tamil's rarest letter. அஃது + இலார்க்கு → அஃதிலார்க்கு.","அது",3],
+["இலார்க்கு","for those who lack","இல் 'not have' + -ஆர் 'those people' + -க்கு 'for'.","இல்லாதவர்களுக்கு",3],
+["என்பு","bone","Classical form of எலும்பு.","எலும்பு",4],
+["தோல்","skin","Everyday word.","தோல்",4],
+["போர்த்த","covered, wrapped","Past form of போர் 'cover'. Related: போர்வை 'blanket'.","போர்த்திய",5],
+["உடம்பு","body","Everyday word, alongside உடல்.","உடம்பு",6]],
+en:"A body that lives by love truly holds life. For those without love, it is only bone wrapped in skin.",
+ta:"அன்பின் வழியில் இயங்கும் உடம்புதான் உயிருள்ள உடம்பு. அன்பு இல்லாதவர்களின் உடம்பு, எலும்பைத் தோலால் போர்த்திய வெறும் கூடு.",
+gram:{t:"ஃ, the letter in between",b:"ஃ (ஆய்தம்) is neither a vowel nor a consonant. It sits between a short vowel and a hard consonant and sounds like a soft, breathy h. You'll see it in classical words, and today it also writes the English f sound.",
+ex:[["அஃது","that (old form of அது)"],["எஃகு","steel"],["அஃறிணை","the grammatical class of things and animals"],["ஃபேன்","fan (modern borrowing)"]]}},
+
+{n:72,ch:[8,"அன்புடைமை","Having love"],theme:"The loving give themselves away",
+lines:[["அன்பிலார்","எல்லாம்","தமக்குரியர்","அன்புடையார்"],["என்பும்","உரியர்","பிறர்க்கு"]],
+split:"அன்பு இலார் எல்லாம் தமக்கு உரியர் அன்பு உடையார் என்பும் உரியர் பிறர்க்கு",
+w:[
+["அன்பிலார்","those without love","அன்பு + இல் 'lacking' + -ஆர் 'people'. The same இல் as in இலார்க்கு (Kural 80).","அன்பு இல்லாதவர்கள்",0],
+["எல்லாம்","everything","Here: everything they own.","எல்லாவற்றையும்",1],
+["தமக்கு","for themselves","தம் 'themselves' + -அக்கு 'for'. Singular: தனக்கு.","தமக்கே",2],
+["உரியர்","belong to, own","உரி 'belong' + -அர் 'people'. In line one they own things; in line two they belong to others. Related: உரிமை 'right'.","உரிமை கொண்டவர்கள்",[2,5]],
+["அன்புடையார்","those with love","அன்பு + உடை 'having' + -ஆர் 'people'. The exact opposite of அன்பிலார்.","அன்பு உடையவர்கள்",3],
+["என்பும்","even their bones","என்பு 'bone' + -உம் 'even'.","எலும்பையும்",4],
+["பிறர்க்கு","to others","பிறர் 'others' + -க்கு 'to'.","மற்றவர்களுக்கு",6]],
+en:"The loveless keep everything for themselves. The loving belong to others, down to their very bones.",
+ta:"அன்பு இல்லாதவர்கள் எல்லாவற்றையும் தமக்கே உரிமையாக்கிக் கொள்வார்கள். அன்பு உடையவர்கள் தம் எலும்பையும் பிறருக்கு உரியதாக்குவார்கள்.",
+gram:{t:"Having and lacking: -உடையார், -இலார்",b:"Join உடை 'having' or இல் 'lacking' to a noun, add -ஆர் 'people', and you have a word for a kind of person. Modern Tamil does the same thing with -உடையவர் and -இல்லாதவர்.",
+ex:[["அன்புடையார் / அன்பிலார்","the loving / the loveless"],["அறிவுடையார்","the wise"],["பணம் இல்லாதவர்","someone without money (modern)"],["அன்புடைமை","having love (this chapter's title)"]]}},
+
+{n:788,ch:[79,"நட்பு","Friendship"],theme:"The hand that catches the slipping cloth",
+lines:[["உடுக்கை","இழந்தவன்","கைபோல","ஆங்கே"],["இடுக்கண்","களைவதாம்","நட்பு"]],
+split:"உடுக்கை இழந்தவன் கை போல ஆங்கே இடுக்கண் களைவது ஆம் நட்பு",
+w:[
+["உடுக்கை","garment, clothing","From உடு 'wear'. Today: உடை, ஆடை.","உடை",0],
+["இழந்தவன்","a man who has lost","இழ 'lose' + -ந்த (past) + அவன் 'he': 'he who lost'.","இழந்தவன்",1],
+["கை","hand","Everyday word.","கை",2],
+["போல","like, as","X போல means 'like X'. Spoken: மாதிரி.","போல",2],
+["ஆங்கே","right there, at once","ஆங்கு 'there' + -ஏ for emphasis.","உடனே",3],
+["இடுக்கண்","trouble, distress","A classical word.","துன்பம்",4],
+["களைவது","removing","களை 'remove, pull out weeds' + -வது 'the act of'. Farmers still say களை எடு.","நீக்குவது",5],
+["ஆம்","is, truly is","Affirms. Today ஆம் also means 'yes'.","ஆகும்",5],
+["நட்பு","friendship","From the same root as நண்பன் 'friend'.","நட்பு",6]],
+en:"Like the hand that darts to catch a slipping garment, friendship rushes at once to remove a friend's distress.",
+ta:"உடை நழுவியவனின் கை உடனே தானாக அதைப் பிடித்துக் காப்பது போல, நண்பனுக்குத் துன்பம் வந்தவுடனே ஓடிச் சென்று அதைப் போக்குவதே நட்பு.",
+gram:{t:"A clause in one word: -அவன், -அவள், -அவர்",b:"Add அவன் (he), அவள் (she), அவர் (they, or a respectful he or she) or அது (it) to a verb form and it becomes 'the one who …'. This is how Tamil makes relative clauses.",
+ex:[["இழந்தவன்","he who lost"],["வந்தவள்","she who came"],["சொன்னவர்","the person who said it"],["களைவது","the act of removing"]]}},
+
+{n:314,ch:[32,"இன்னாசெய்யாமை","Doing no harm"],theme:"Answer harm with kindness",
+lines:[["இன்னாசெய்","தாரை","ஒறுத்தல்","அவர்நாண"],["நன்னயஞ்","செய்து","விடல்"]],
+split:"இன்னா செய்தாரை ஒறுத்தல் அவர் நாண நல் நயம் செய்து விடல்",
+w:[
+["இன்னா","harm, unkindness","The same root as இன்னாத (Kural 100): 'not sweet'.","தீங்கு",0],
+["செய்தாரை","those who did it (as object)","செய் 'do' + -த (past) + -ஆர் 'people' + -ஐ object marker. The metre splits it: செய் | தாரை.","செய்தவர்களை",[0,1]],
+["ஒறுத்தல்","punishing","ஒறு 'punish' + -த்தல், an '-ing' ending.","தண்டித்தல்",2],
+["அவர்","they","Also the respectful 'he' or 'she'.","அவர்",3],
+["நாண","so that they feel ashamed","Infinitive of நாணு 'feel shame'. An infinitive often means 'so that'. Related: நாணம் 'modesty'.","வெட்கப்படும்படி",3],
+["நன்னயம்","a kindness, a good turn","நல் 'good' + நயம் 'benefit'. Before ச the final ம் becomes ஞ்: நன்னயஞ் செய்து.","நன்மை",4],
+["செய்து","having done","The verb form that chains actions: 'having done, …'.","செய்து",5],
+["விடல்","letting go","விடு 'leave' + -அல். செய்து விடல்: do the good, then let the whole matter go.","விட்டுவிடுதல்",6]],
+en:"To punish those who harm you, shame them by doing them good, and then let both the harm and the good be forgotten.",
+ta:"நமக்குத் தீங்கு செய்தவரைத் தண்டிக்கும் வழி, அவர் வெட்கப்படும்படி அவருக்கு நன்மை செய்து, அவர் செய்த தீமையையும் நாம் செய்த நன்மையையும் மறந்துவிடுவதே.",
+gram:{t:"The object marker -ஐ",b:"-ஐ marks the person or thing acted on. Spot it and you know who is being punished, praised or seen, wherever the words sit in the line. In speech it often softens to -அ, so அவனை becomes அவன.",
+ex:[["செய்தாரை ஒறுத்தல்","punishing those who did it"],["தன் மகனை","her son (Kural 69)"],["தம்மை இகழ்வார்","those who scorn them (Kural 151)"],["என்னைப் பார்","look at me"]]}},
+
+{n:423,ch:[43,"அறிவுடைமை","Wisdom"],theme:"Weigh the words, not the speaker",
+lines:[["எப்பொருள்","யார்யார்வாய்க்","கேட்பினும்","அப்பொருள்"],["மெய்ப்பொருள்","காண்ப","தறிவு"]],
+split:"எப்பொருள் யார் யார் வாய்க் கேட்பினும் அப்பொருள் மெய்ப்பொருள் காண்பது அறிவு",
+w:[
+["எ-","which, whatever","Question prefix: எப்பொருள் 'whatever matter'. A hard consonant after it doubles.","எந்த",0],
+["பொருள்","thing, matter, meaning","One of Tamil's richest words: thing, wealth, meaning. இதன் பொருள் என்ன? 'What does this mean?'","பொருள்",[0,3,4]],
+["யார்யார்","whoever, all sorts of people","யார் 'who', doubled.","யார் யார்",1],
+["வாய்","mouth","Here: from the mouth of.","வாயிலிருந்து",1],
+["கேட்பினும்","even if (one) hears","கேள் 'hear' + -ப்- + -இன் 'if' + -உம் 'even'.","கேட்டாலும்",2],
+["அ-","that","Pointing prefix: அப்பொருள் 'that matter'.","அந்த",3],
+["மெய்","true","மெய் means truth, and also body. Consonants are மெய்யெழுத்து, 'body letters'.","உண்மை",4],
+["காண்பது","seeing, discerning","காண் 'see' + -ப்பது 'the act of'. The metre splits it: காண்ப | தறிவு.","காண்பது",[5,6]],
+["அறிவு","wisdom","From அறி 'know' (Kural 396).","அறிவு",6]],
+en:"Whatever is said, and whoever says it, wisdom is seeing the truth within it.",
+ta:"எந்தப் பொருளைப் பற்றி யார் யார் சொல்லக் கேட்டாலும், அதன் உண்மைப் பொருளை ஆராய்ந்து காண்பதே அறிவு.",
+gram:{t:"அ, இ, எ: that, this, which",b:"Three vowels do the work of 'that', 'this' and 'which'. They attach to the front of a word, and a hard consonant after them doubles. The same system runs through everyday Tamil.",
+ex:[["அப்பொருள் · இப்பொருள் · எப்பொருள்","that / this / which matter"],["அங்கே · இங்கே · எங்கே","there / here / where"],["அப்போது · இப்போது · எப்போது","then / now / when"],["அந்த · இந்த · எந்த","that / this / which"]]}},
+
+{n:411,ch:[42,"கேள்வி","Listening"],theme:"The wealth of listening",
+lines:[["செல்வத்துட்","செல்வஞ்","செவிச்செல்வம்","அச்செல்வம்"],["செல்வத்து","ளெல்லாந்","தலை"]],
+split:"செல்வத்துள் செல்வம் செவிச் செல்வம் அச் செல்வம் செல்வத்துள் எல்லாம் தலை",
+w:[
+["செல்வத்துள்","among all wealth","செல்வம் + -அத்து- (a connector) + உள் 'among'. Before ச, ள் becomes ட்: செல்வத்துட் செல்வம்.","செல்வங்களுள்",[0,4,5]],
+["செல்வம்","wealth","Appears in four of the seven feet. Before ச the final ம் becomes ஞ்: செல்வஞ் செவி.","செல்வம்",[1,2,3]],
+["செவி","ear","Classical word for ear. செவிச்செல்வம் is the wealth of the ear: learning by listening.","காது",2],
+["அ-","that","Pointing prefix, as in Kural 423: அச்செல்வம் 'that wealth'.","அந்த",3],
+["எல்லாம்","all","The metre pulls ள் forward: செல்வத்துள் எல்லாம் is printed செல்வத்து | ளெல்லாந்.","எல்லாம்",5],
+["தலை","head, the foremost","Literally 'head'; here 'the best'. தலைவர் means leader.","முதன்மையானது",6]],
+en:"The wealth of wealths is the wealth of the ear. Of all kinds of wealth, it is the foremost.",
+ta:"செல்வங்களுள் சிறந்த செல்வம் கேள்விச் செல்வம். அச்செல்வமே எல்லாச் செல்வங்களிலும் முதன்மையானது.",
+gram:{t:"When the metre splits a word",b:"Each line of a kural has a fixed rhythm of feet (சீர்), and the poet cuts words wherever the rhythm demands. Read across the break. Here செல்வத்துள் எல்லாம் is printed செல்வத்து | ளெல்லாந், with the ள் carried into the next foot.",
+ex:[["செல்வத்து | ளெல்லாந்","செல்வத்துள் + எல்லாம்"],["காய்கவர்ந் | தற்று","காய் கவர்ந்த அற்று (Kural 100)"],["கேளா | தவர்","கேளாதவர் (Kural 66)"],["காண்ப | தறிவு","காண்பது அறிவு (Kural 423)"]]}},
+
+{n:202,ch:[21,"தீவினையச்சம்","Dread of evil deeds"],theme:"Fear evil more than fire",
+lines:[["தீயவை","தீய","பயத்தலான்","தீயவை"],["தீயினும்","அஞ்சப்","படும்"]],
+split:"தீயவை தீய பயத்தலான் தீயவை தீயினும் அஞ்சப்படும்",
+w:[
+["தீயவை","evil deeds","தீய 'evil' + அவை 'those things'. The first line opens and closes with it.","தீய செயல்கள்",[0,3]],
+["தீய","evil (results)","Adjective form: தீய செயல் 'an evil act'.","தீமைகளை",1],
+["பயத்தலான்","because they yield","பய 'bear fruit' + -த்தல் + -ஆன், an old form of -ஆல் 'because of'. Related: பயன் 'use, benefit'.","தருவதால்",2],
+["தீயினும்","even more than fire","தீ 'fire' + -இனும் 'even more than'. A pun: தீ (fire) and தீய (evil) sound alike.","நெருப்பை விட",4],
+["அஞ்சப்படும்","is to be feared","அஞ்சு 'fear' + படு, the passive helper: 'will be feared', meaning 'must be feared'. Split by the metre: அஞ்சப் | படும்.","அஞ்ச வேண்டும்",[5,6]]],
+en:"Because evil deeds bring forth evil, evil deeds are to be feared even more than fire.",
+ta:"தீய செயல்கள் தீமையையே விளைவிப்பதால், அவற்றை நெருப்பை விடவும் அதிகமாக அஞ்சி ஒதுக்க வேண்டும்.",
+gram:{t:"The passive with படு",b:"Tamil makes a passive by adding படு ('undergo') after a verb. The kural says 'will be feared' to mean 'must be feared'. Modern Tamil uses the same helper.",
+ex:[["அஞ்சப்படும்","is (to be) feared"],["ஓம்பப்படும்","is (to be) guarded (Kural 131)"],["கொல்லப்பட்டான்","he was killed"],["சொல்லப்படுகிறது","it is said"]]}},
+
+{n:467,ch:[47,"தெரிந்துசெயல்வகை","Acting with forethought"],theme:"Think, then act",
+lines:[["எண்ணித்","துணிக","கருமம்","துணிந்தபின்"],["எண்ணுவம்","என்பது","இழுக்கு"]],
+split:"எண்ணித் துணிக கருமம் துணிந்த பின் எண்ணுவம் என்பது இழுக்கு",
+w:[
+["எண்ணி","having thought it through","எண்ணு 'think, count' + -இ. Related: எண் 'number', எண்ணம் 'thought'.","சிந்தித்து",0],
+["துணிக","venture, commit","துணி 'dare, resolve' + -க, the same ending as கற்க (Kural 391). Related: துணிவு 'courage'.","துணிந்து செய்",1],
+["கருமம்","a task, a deed","From Sanskrit karma.","செயல்",2],
+["துணிந்த","having committed","Past form of துணி.","துணிந்த",3],
+["பின்","after","As in Kural 391.","பிறகு",3],
+["எண்ணுவம்","we shall think","An old 'we will' form: எண்ணு + -வ- + -அம்.","யோசிப்போம்",4],
+["என்பது","saying that","என் 'say' + -ப்பது. In writing, 'X என்பது Y' means 'X is Y'.","என்று சொல்வது",5],
+["இழுக்கு","a fault, a disgrace","A classical word.","குற்றம்",6]],
+en:"Think first, then commit to a task. To say 'we'll think it through once we've started' is a fault.",
+ta:"ஒரு செயலை நன்றாகச் சிந்தித்த பிறகே தொடங்க வேண்டும். தொடங்கிய பிறகு சிந்திப்போம் என்று நினைப்பது குற்றமாகும்.",
+gram:{t:"Chaining actions: எண்ணி, செய்து",b:"Tamil strings actions together with a verb form that means 'having done'. It ends in -இ, -து or -ந்து, and only the last verb in the chain carries the tense. Spoken Tamil is full of these chains.",
+ex:[["எண்ணித் துணிக","think it through, then commit"],["செய்து விடல்","do it and let go (Kural 314)"],["சாப்பிட்டுப் போ","eat, then go"],["வந்து பார்","come and see"]]}},
+
+{n:619,ch:[62,"ஆள்வினையுடைமை","Persistent effort"],theme:"Effort always pays a wage",
+lines:[["தெய்வத்தான்","ஆகா","தெனினும்","முயற்சி|தன்"],["மெய்வருத்தக்","கூலி","தரும்"]],
+split:"தெய்வத்தான் ஆகாது எனினும் முயற்சி தன் மெய் வருத்தக் கூலி தரும்",
+w:[
+["தெய்வத்தான்","by fate","தெய்வம் 'god, fate' + -அத்து- + -ஆன் 'by', the old -ஆல் (Kural 202).","விதியால்",0],
+["ஆகாது","will not happen","ஆகு 'become' + the negative -ஆது. The metre splits it: ஆகா | தெனினும்.","முடியாது",[1,2]],
+["எனினும்","even if","என் 'say' + -இன் 'if' + -உம் 'even'.","என்றாலும்",2],
+["முயற்சி","effort","Everyday word: முயற்சி செய் 'make an effort'. From முயல் 'try'.","முயற்சி",3],
+["தன்","its own","'One's own', here referring to the effort.","தன்",3],
+["மெய்","body","Here மெய் means body. In Kural 423 it meant truth.","உடல்",4],
+["வருத்த","as (the body) strains","From வருத்து 'strain, make suffer'. Today வருத்தம் means sorrow.","உழைப்புக்கு ஏற்ப",4],
+["கூலி","wage","The same word today: a wage, a day's pay.","கூலி",5],
+["தரும்","will give","தா 'give' changes shape before endings: தரும், தருவேன், தந்தான்.","தரும்",6]],
+en:"Even if fate makes a thing impossible, effort will still pay a wage in proportion to the body's toil.",
+ta:"விதியின் காரணமாக ஒரு செயல் கைகூடாமல் போனாலும், முயற்சி தன் உடல் உழைப்புக்கு ஏற்ற பலனைத் தவறாமல் தரும்.",
+gram:{t:"If and even if: -இன், -இனும்",b:"Classical Tamil marks 'if' with -இன் and 'even if' with -இனும். Modern Tamil uses -ஆல் and -ஆலும் for the same jobs.",
+ex:[["எனின் → என்றால்","if (Kural 20)"],["எனினும் → என்றாலும்","even if"],["கேட்பினும் → கேட்டாலும்","even if one hears (Kural 423)"],["மழை பெய்தால்","if it rains (modern)"]]}},
+
+{n:972,ch:[98,"பெருமை","Greatness"],theme:"Equal by birth",
+lines:[["பிறப்பொக்கும்","எல்லா","உயிர்க்கும்","சிறப்பொவ்வா"],["செய்|தொழில்","வேற்றுமை","யான்"]],
+split:"பிறப்பு ஒக்கும் எல்லா உயிர்க்கும் சிறப்பு ஒவ்வா செய் தொழில் வேற்றுமையான்",
+w:[
+["பிறப்பு","birth","From பிற 'be born'. பிறந்தநாள் is 'birthday'.","பிறப்பு",0],
+["ஒக்கும்","is equal, is alike","From ஒ 'be equal'. Related: ஒப்பு 'comparison', ஒத்த 'similar'.","சமம்",0],
+["எல்லா","all","The form of எல்லாம் used before a noun: எல்லா உயிர் 'all living things'.","எல்லா",1],
+["உயிர்க்கும்","for every living being","உயிர் 'a living being' + -க்கு 'for' + -உம் 'all, also'.","உயிர்களுக்கும்",2],
+["சிறப்பு","distinction, excellence","Everyday word: 'special, excellent'.","சிறப்பு",3],
+["ஒவ்வா","are not equal","The negative of ஒக்கும். Same pattern as கேளா (Kural 66).","சமமாவதில்லை",3],
+["செய்","(that one) does","A bare verb used like an adjective: செய்தொழில் 'the work one does'.","செய்யும்",4],
+["தொழில்","work, occupation","Everyday word: a trade, a job, a business.","தொழில்",4],
+["வேற்றுமையான்","because of the difference","வேற்றுமை 'difference' + -ஆன் 'because of'. Grammarians also use வேற்றுமை for 'case', as in case endings. Split by the metre: வேற்றுமை | யான்.","வேறுபாட்டால்",[5,6]]],
+en:"By birth all living beings are equal. Distinction comes only from the difference in the work each one does.",
+ta:"பிறப்பால் எல்லா உயிர்களும் சமமானவையே. அவரவர் செய்யும் தொழிலின் வேறுபாட்டால் மட்டுமே சிறப்பு வேறுபடுகிறது.",
+gram:{t:"A verb and its negative: ஒக்கும், ஒவ்வா",b:"A kural loves to set a verb against its own negative. The negative usually adds -ஆ- and drops the tense: ஒக்கும் (are alike) against ஒவ்வா (are not alike).",
+ex:[["ஒக்கும் / ஒவ்வா","are alike / are not alike"],["அமையும் / அமையாது","will be / will not be (Kural 20)"],["கேட்ட / கேளாத","who heard / who did not hear"],["வரும் / வராது","will come / won't come"]]}},
+
+{n:20,ch:[2,"வான்சிறப்பு","The gift of rain"],theme:"Without water, no world",
+lines:[["நீரின்று","அமையாது","உலகெனின்","யார்யார்க்கும்"],["வானின்று","அமையாது","ஒழுக்கு"]],
+split:"நீர் இன்று அமையாது உலகு எனின் யார் யார்க்கும் வான் இன்று அமையாது ஒழுக்கு",
+w:[
+["நீர்","water","The formal word. Spoken: தண்ணீர், தண்ணி.","நீர்",0],
+["இன்று","without","Here இன்று means 'without', from இல் 'not be'. Elsewhere it means 'today'.","இல்லாமல்",[0,4]],
+["அமையாது","cannot hold together","அமை 'be formed, settle' + the negative -ஆது. Related: அமைப்பு 'structure'.","நிலைபெறாது",[1,5]],
+["உலகு","world","As in Kural 1.","உலகம்",2],
+["எனின்","if (it is so)","என் 'say' + -இன் 'if'. உலகு எனின்: 'if (we speak of) the world'.","என்றால்",2],
+["யார்யார்க்கும்","for anyone at all","யார் யார் 'whoever' + -க்கும் 'for all'.","யாருக்கும்",3],
+["வான்","sky, and so rain","வான் is the sky; rain is what comes from it. வானம் 'sky'.","மழை",4],
+["ஒழுக்கு","flow; ordered life","The flow of water, and also orderly conduct (ஒழுக்கம்). Commentators read it both ways.","நீரோட்டம், ஒழுக்கம்",6]],
+en:"If the world cannot go on without water, then for anyone at all, the flow of water, and the ordered life it sustains, cannot go on without rain.",
+ta:"நீர் இல்லாமல் உலகம் இயங்காது என்றால், மழை இல்லாமல் யாருக்கும் நீரோட்டமும் ஒழுக்கமும் நிலைபெறாது.",
+gram:{t:"One spelling, two words: இன்று, அன்று",b:"Tamil has many look-alike words, and sandhi creates more. இன்று can mean 'today' or 'without'. அன்று can mean 'that day' or 'is not' (Kural 108). Let the sentence decide.",
+ex:[["நீரின்று அமையாது","cannot be without water"],["இன்று மழை","rain today"],["நன்று அன்று","is not good"],["அன்றே மறப்பது","forgetting that very day"]]}},
+
+{n:595,ch:[60,"ஊக்கமுடைமை","Drive"],theme:"As deep as the water, as high as the mind",
+lines:[["வெள்ளத்","தனைய","மலர்நீட்டம்","மாந்தர்|தம்"],["உள்ளத்","தனையது","உயர்வு"]],
+split:"வெள்ளத்து அனைய மலர் நீட்டம் மாந்தர் தம் உள்ளத்து அனையது உயர்வு",
+w:[
+["வெள்ளத்து","of the water's depth","வெள்ளம் 'flood, body of water' + -அத்து-. Today வெள்ளம் means a flood.","நீரின்",0],
+["அனைய","as much as","A measure word, cousin of அனைத்து (Kural 396). The metre splits வெள்ளத்து அனைய as வெள்ளத் | தனைய.","அளவுக்கு",1],
+["மலர்","flower","Here a water flower such as a lotus or lily. Also a given name.","மலர்",2],
+["நீட்டம்","length (of the stalk)","From நீள் 'be long'. Related: நீளம் 'length'.","நீளம்",2],
+["மாந்தர்","people","As in Kural 396.","மனிதர்",3],
+["தம்","their","As in Kural 66.","தங்கள்",3],
+["உள்ளத்து","of the mind","உள்ளம் 'mind, heart' + -அத்து-. From உள் 'inside'.","மனத்தின்",4],
+["அனையது","is as much as","அனைய + -து 'it': a predicate, 'it matches'.","அளவினது",5],
+["உயர்வு","height, rise, greatness","From உயர் 'rise'. Related: உயரம் 'height'.","உயர்வு",6]],
+en:"A water-lily's stalk rises as high as the water is deep. A person rises as high as their mind aspires.",
+ta:"நீர்ப்பூக்களின் தண்டின் நீளம், நீரின் அளவுக்கு ஏற்ப இருக்கும். அதுபோல மனிதர்களின் உயர்வு, அவர்களுடைய மன ஊக்கத்தின் அளவுக்கு ஏற்ப இருக்கும்.",
+gram:{t:"The connector -அத்து-",b:"Many nouns that end in -அம் drop the ம் and take -அத்து- before an ending. It adds no meaning; grammarians call it சாரியை, a connector. Strip it to find the dictionary word.",
+ex:[["வெள்ளம் → வெள்ளத்து","flood, water"],["உள்ளம் → உள்ளத்து","mind"],["செல்வம் → செல்வத்துள்","among wealth (Kural 411)"],["மரம் → மரத்தில்","on the tree (modern)"]]}},
+
+{n:151,ch:[16,"பொறையுடைமை","Forbearance"],theme:"Bear it like the earth",
+lines:[["அகழ்வாரைத்","தாங்கும்","நிலம்|போலத்","தம்மை"],["இகழ்வார்ப்","பொறுத்தல்","தலை"]],
+split:"அகழ்வாரைத் தாங்கும் நிலம் போலத் தம்மை இகழ்வார்ப் பொறுத்தல் தலை",
+w:[
+["அகழ்வாரை","those who dig (into it)","அகழ் 'dig' + -வார் 'those who' + -ஐ. Related: அகழி 'moat'.","தோண்டுபவர்களை",0],
+["தாங்கும்","bears, holds up","Everyday: தாங்க முடியவில்லை 'I can't bear it'.","தாங்கும்",1],
+["நிலம்","the earth, land","Everyday word.","நிலம்",2],
+["போல","like","As in Kural 788.","போல",2],
+["தம்மை","oneself (as object)","தம் + -ஐ: the person being scorned.","தங்களை",3],
+["இகழ்வார்","those who scorn","இகழ் 'insult, scorn' + -வார். It echoes அகழ்வார் on purpose.","இகழ்பவர்களை",4],
+["பொறுத்தல்","bearing with, forgiving","பொறு 'endure, forgive'. Related: பொறுமை 'patience'.","பொறுத்துக்கொள்ளுதல்",5],
+["தலை","the highest","'Head', meaning the best, as in Kural 411.","சிறந்தது",6]],
+en:"Like the earth that holds up even those who dig into it, the highest virtue is to bear with those who scorn you.",
+ta:"தன்னைத் தோண்டுபவர்களையும் தாங்கி நிற்கும் நிலத்தைப் போல, தம்மை இகழ்பவர்களைப் பொறுத்துக் கொள்வதே சிறந்த பண்பு.",
+gram:{t:"The opening rhyme (எதுகை)",b:"Kurals rhyme at the start of each line, not the end. Usually the second letter of the first foot in line one matches the second letter of the first foot in line two. This is எதுகை, and spotting it helps a kural stick.",
+ex:[["அகழ்வாரைத் / இகழ்வார்ப்","-க- in both"],["கற்க / நிற்க","Kural 391"],["உடுக்கை / இடுக்கண்","Kural 788"],["வெள்ளத் / உள்ளத்","Kural 595"]]}}
+];
+
+/* ───────────── script & transliteration ───────────── */
+const V_IND={'அ':0,'ஆ':1,'இ':2,'ஈ':3,'உ':4,'ஊ':5,'எ':6,'ஏ':7,'ஐ':8,'ஒ':9,'ஓ':10,'ஔ':11};
+const V_SIGN={'ா':1,'ி':2,'ீ':3,'ு':4,'ூ':5,'ெ':6,'ே':7,'ை':8,'ொ':9,'ோ':10,'ௌ':11};
+const SIGN_LIST=['','ா','ி','ீ','ு','ூ','ெ','ே','ை','ொ','ோ','ௌ'];
+const VOWELS=['அ','ஆ','இ','ஈ','உ','ஊ','எ','ஏ','ஐ','ஒ','ஓ','ஔ'];
+const CONS='கஙசஜஞடணதநனபமயரறலளழவஶஷஸஹ';
+const V_ISO=['a','ā','i','ī','u','ū','e','ē','ai','o','ō','au'];
+const V_SP=['a','aa','i','ee','u','oo','e','ē','ai','o','ō','au'];
+const C_ISO={'க':'k','ங':'ṅ','ச':'c','ஜ':'j','ஞ':'ñ','ட':'ṭ','ண':'ṇ','த':'t','ந':'n','ன':'ṉ','ப':'p','ம':'m','ய':'y','ர':'r','ற':'ṟ','ல':'l','ள':'ḷ','ழ':'ḻ','வ':'v','ஶ':'ś','ஷ':'ṣ','ஸ':'s','ஹ':'h'};
+const C_SP={'ங':'ng','ஞ':'ny','ண':'n','ந':'n','ன':'n','ம':'m','ய':'y','ர':'r','ல':'l','வ':'v','ழ':'zh','ள':'l','ஜ':'j','ஷ':'sh','ஸ':'s','ஹ':'h','ஶ':'sh'};
+const CODA_SP=Object.assign({'க':'k','ச':'ch','ட':'t','த':'th','ப':'p','ற':'r','ங':'n','ஞ':'n'},C_SP,{'ங':'n','ஞ':'n'});
+const HARD=new Set(['க','ச','ட','த','ப','ற']);
+const NASAL=new Set(['ங','ஞ','ண','ந','ம','ன']);
+
+function units(word){
+  const s=[...word.normalize('NFC')],out=[];
+  for(let i=0;i<s.length;i++){
+    const ch=s[i];
+    if(ch in V_IND){out.push({v:V_IND[ch]});continue}
+    if(ch==='ஃ'){out.push({ay:1});continue}
+    if(CONS.includes(ch)){
+      const nx=s[i+1];
+      if(nx==='்'){out.push({c:ch,v:-1});i++}
+      else if(nx in V_SIGN){out.push({c:ch,v:V_SIGN[nx]});i++}
+      else out.push({c:ch,v:0});
+      continue;
+    }
+    out.push({raw:ch});
+  }
+  return out;
+}
+function isoWord(w){
+  return units(w).map(u=>u.raw!==undefined?u.raw:u.ay?'ḵ':u.c?C_ISO[u.c]+(u.v>=0?V_ISO[u.v]:''):V_ISO[u.v]).join('');
+}
+// A reading guide that follows how Tamil is actually pronounced:
+// க is k at the start, g between vowels, kk when doubled; ற்ற reads "tr", ன்ற reads "ndr", and so on.
+function spokenWord(w){
+  const u=units(w);let out='';
+  for(let i=0;i<u.length;i++){
+    const x=u[i],prev=u[i-1],next=u[i+1];
+    if(x.raw!==undefined){out+=x.raw;continue}
+    if(x.ay){out+='h';continue}
+    if(!x.c){out+=V_SP[x.v];continue}
+    if(x.v===-1){out+=(x.c==='ற'&&next&&next.c==='ற')?'t':(CODA_SP[x.c]||C_ISO[x.c]);continue}
+    const initial=!prev||prev.raw!==undefined;
+    const pc=prev&&prev.c&&prev.v===-1?prev.c:null;
+    let cs;
+    if(HARD.has(x.c)){
+      const gem=pc===x.c,nas=pc&&NASAL.has(pc),vl=(pc&&HARD.has(pc))||(prev&&prev.ay);
+      switch(x.c){
+        case'க':cs=initial||gem||vl?'k':'g';if(nas)cs='g';break;
+        case'ச':cs=initial?'s':gem||vl?'ch':nas?'j':'s';break;
+        case'ட':cs=initial||gem||vl?'t':'d';if(nas)cs='d';break;
+        case'த':cs=initial||gem||vl?'th':'dh';if(nas)cs='dh';break;
+        case'ப':cs=nas?'b':'p';break;
+        case'ற':cs=gem?'r':pc==='ன'?'dr':'r';break;
+      }
+    } else cs=C_SP[x.c]||C_ISO[x.c];
+    out+=cs+V_SP[x.v];
+  }
+  return out;
+}
+const clean=s=>s.replace(/\|/g,'');
+function trWith(fn,s){return s.replace(/[஀-௿|]+/g,m=>m.split('|').map(fn).join(''))}
+function tr(s){return trWith(prefs.tr==='iso'?isoWord:spokenWord,s)}
+const TD='௦௧௨௩௪௫௬௭௮௯';
+const taNum=n=>String(n).split('').map(d=>TD[d]).join('');
+
+/* ───────────── derived data ───────────── */
+LESSONS.forEach((L,i)=>{
+  L.i=i;
+  L.cirs=L.lines.flat();
+  L.words=L.w.map(([t,g,n,m,c],k)=>({t,g,n,m,cs:Array.isArray(c)?c:[c],L,k}));
+});
+const BY_N={};LESSONS.forEach(L=>BY_N[L.n]=L);
+const isAffix=w=>/^-|-$/.test(w.t)||w.t==='ஏ';
+const CARD_WORDS=[];
+(function(){
+  const seen={};
+  LESSONS.forEach(L=>L.words.forEach(w=>{
+    if(isAffix(w))return;
+    const s=seen[w.t];
+    if(s){if(!s.gs.includes(w.g))s.gs.push(w.g);if(!s.Ls.includes(L))s.Ls.push(L);return}
+    const card={id:L.n+'-'+w.k,t:w.t,g:w.g,gs:[w.g],n:w.n,m:w.m,cs:w.cs,L,Ls:[L]};
+    seen[w.t]=card;CARD_WORDS.push(card);
+  }));
+})();
+const inLesson=(card,L)=>L.words.find(x=>x.t===card.t);
+const PAL=n=>n<=380?{ta:"அறத்துப்பால்",en:"Virtue"}:n<=1080?{ta:"பொருட்பால்",en:"Wealth"}:{ta:"காமத்துப்பால்",en:"Love"};
+
+/* ───────────── state ───────────── */
+const LS='kural-vazhi:v1';
+let state={done:{},cards:{}};
+let prefs={tr:'spoken',split:false};
+try{const s=JSON.parse(localStorage.getItem(LS)||'null');if(s&&typeof s==='object'){state.done=s.done||{};state.cards=s.cards||{}}}catch(e){}
+try{const p=JSON.parse(localStorage.getItem(LS+':prefs')||'null');if(p&&typeof p==='object')Object.assign(prefs,p)}catch(e){}
+function saveLocal(){try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){}}
+function savePrefs(){try{localStorage.setItem(LS+':prefs',JSON.stringify(prefs))}catch(e){}}
+function persist(){saveLocal();queueRemote()}
+const isDone=n=>!!(state.done[n]&&state.done[n].on);
+const doneCount=()=>LESSONS.filter(L=>isDone(L.n)).length;
+
+/* ───────────── runtime capabilities (optional) ───────────── */
+const use=n=>(window.claude&&typeof window.claude.use==='function')?window.claude.use(n).catch(()=>null):Promise.resolve(null);
+let remote=null,rTimer=null,rBusy=false,rAgain=false;
+function setSaveNote(where){$('#saveNote').textContent=where==='account'?'Your progress syncs to your Claude account, so it follows you across devices.':'Your progress is saved in this browser.'}
+function mergeRemote(r){
+  let ch=false;
+  if(r&&r.done)for(const k in r.done){const a=state.done[k],b=r.done[k];if(b&&(!a||(b.t||0)>(a.t||0))){state.done[k]=b;ch=true}}
+  if(r&&r.cards)for(const k in r.cards){const a=state.cards[k],b=r.cards[k];if(b&&(!a||(b.t||0)>(a.t||0))){state.cards[k]=b;ch=true}}
+  return ch;
+}
+async function initRemote(){
+  const [db,user]=await Promise.all([use('db'),use('user')]);
+  if(!db||!user)return;
+  let id=null;try{id=await user.id()}catch(e){}
+  if(!id)return;
+  let ref;try{ref=db.doc('data/users/'+id+'/progress')}catch(e){return}
+  try{
+    const snap=await ref.get();
+    remote=ref;setSaveNote('account');
+    const body=()=>JSON.stringify({done:state.done,cards:state.cards});
+    let before=null;
+    if(snap.exists){const r=snap.data()||{};before=JSON.stringify({done:r.done||{},cards:r.cards||{}});if(mergeRemote(r)){saveLocal();if(!(view==='practice'&&(P.cards||P.quiz)))render(false)}}
+    const empty=!Object.keys(state.done).length&&!Object.keys(state.cards).length;
+    if(body()!==before&&!(before===null&&empty))queueRemote();
+  }catch(e){}
+}
+function queueRemote(){if(!remote)return;clearTimeout(rTimer);rTimer=setTimeout(flushRemote,900)}
+async function flushRemote(){
+  if(!remote)return;
+  if(rBusy){rAgain=true;return}
+  rBusy=true;
+  try{await remote.set({v:1,done:state.done,cards:state.cards})}
+  catch(e){if(e&&(e.code==='invalid_argument'||e.code==='revoked'||e.code==='not_granted')){remote=null;setSaveNote('local')}}
+  rBusy=false;
+  if(rAgain){rAgain=false;flushRemote()}
+}
+
+// speech: Claude's voice where it can read Tamil, else a Tamil voice installed on the device
+let tts=null,ttsTa=false,bVoice=null,speech=null;
+function decideSpeech(){speech=(tts&&ttsTa)?'tts':bVoice?'browser':tts?'tts':null;document.body.classList.toggle('no-speech',!speech)}
+async function initSpeech(){
+  try{
+    if('speechSynthesis' in window){
+      const pick=()=>{const v=speechSynthesis.getVoices().find(v=>/^ta/i.test(v.lang));if(v&&!bVoice){bVoice=v;decideSpeech()}};
+      pick();speechSynthesis.addEventListener&&speechSynthesis.addEventListener('voiceschanged',pick);
+    }
+  }catch(e){}
+  tts=await use('tts');
+  if(tts){
+    let langs;try{langs=tts.languages?await tts.languages():undefined}catch(e){langs=undefined}
+    ttsTa=!langs||langs.some(l=>/^ta/i.test(l));
+  }
+  decideSpeech();
+}
+function say(text){
+  text=clean(text).replace(/(^|\s)-|-(?=\s|$)/g,'$1').trim();
+  if(!text)return;
+  if(speech==='tts'){
+    tts.speak(text,{language:'ta',rate:0.85}).catch(e=>{if(e&&(e.code==='not_granted'||e.code==='unavailable')){tts=null;speech=null;document.body.classList.add('no-speech')}});
+  }else if(speech==='browser'){
+    try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.voice=bVoice;u.lang=bVoice.lang;u.rate=0.85;speechSynthesis.speak(u)}catch(e){}
+  }
+}
+
+let sample=null;
+use('sample').then(s=>{sample=s;document.body.classList.toggle('has-ask',!!s)});
+
+/* ───────────── helpers ───────────── */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const SPK='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.6 6a8.6 8.6 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+const CHECK='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ta=s=>`<span lang="ta">${esc(s)}</span>`;
+const app=$('#app');
+document.body.classList.add('no-speech');
+function applyPrefs(){document.body.classList.toggle('tr-off',prefs.tr==='off')}
+function nextLesson(){return LESSONS.find(L=>!isDone(L.n))||null}
+function lineOf(L,c){return c<L.lines[0].length?0:1}
+
+/* ───────────── router ───────────── */
+let view='learn',cur=null;
+function route(){
+  const h=location.hash.replace('#','');const m=/^k(\d+)$/.exec(h);
+  if(h==='letters')view='letters';
+  else if(h==='practice')view='practice';
+  else if(m&&BY_N[m[1]]){view='lesson';cur=BY_N[m[1]]}
+  else view='learn';
+  render(true);
+}
+function render(top){
+  applyPrefs();
+  $$('.tabs a').forEach(a=>{const on=a.dataset.tab===(view==='lesson'?'learn':view);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
+  if(view==='letters')renderLetters();
+  else if(view==='practice')renderPractice();
+  else if(view==='lesson')renderLesson(cur);
+  else renderLearn();
+  if(top)window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+
+/* ───────────── learn index ───────────── */
+function staticKural(L){
+  return `<div class="leaf k-static"><span class="folio">${taNum(L.n)}<small>${L.n}</small></span>${L.lines.map(line=>`<div class="k-line">${line.map(c=>`<span><span class="k-ta" lang="ta">${esc(clean(c))}</span></span>`).join('')}</div><p class="tr small" style="margin:2px 0 0">${esc(tr(line.join(' ')))}</p>`).join('')}</div>`;
+}
+function renderLearn(){
+  const nx=nextLesson(),dc=doneCount(),feat=nx||LESSONS[0];
+  app.innerHTML=`
+  <section class="intro">
+    <p class="eyebrow"><span lang="ta">திருக்குறள்</span> · Thirukkural</p>
+    <h1 lang="ta">குறள் வழி</h1>
+    <p class="lede">Relearn Tamil one couplet at a time. Each lesson takes a single kural apart word by word, shows how it reads in today's Tamil, and teaches one piece of grammar you'll keep meeting.</p>
+  </section>
+  <section class="today">
+    <div class="today-head"><span class="eyebrow">${nx?(dc?'Up next':'Start here'):'All twenty learned'}</span><span class="muted small tnum">Lesson ${feat.i+1} of ${LESSONS.length} · Kural ${feat.n}</span></div>
+    ${staticKural(feat)}
+    <p class="theme">${esc(feat.theme)}</p>
+    <div class="actions"><a class="btn primary" href="#k${feat.n}">${nx?(dc?'Continue':'Begin the first lesson'):'Revisit lesson 1'}</a><a class="btn" href="#letters">Brush up on the letters</a>${dc?'<a class="btn" href="#practice">Practise your words</a>':''}</div>
+  </section>
+  <section class="sec">
+    <div class="path-head"><h2>The path</h2><span class="muted small tnum">${dc} of ${LESSONS.length} learned</span></div>
+    <div class="strip" aria-hidden="true">${LESSONS.map(L=>`<i class="${isDone(L.n)?'on':''}${L===nx?' cur':''}"></i>`).join('')}</div>
+    ${UNITS.map(u=>`<div class="unit"><p class="eyebrow">Unit ${u.k} · ${ta(u.ta)}</p><h3>${esc(u.en)}</h3><div>${LESSONS.slice(u.from,u.to).map(L=>rowHTML(L,nx)).join('')}</div></div>`).join('')}
+  </section>`;
+}
+function rowHTML(L,nx){
+  const d=isDone(L.n);
+  return `<a class="row${L===nx?' is-next':''}" href="#k${L.n}">
+    <span class="num tnum">${L.i+1}</span>
+    <span><span class="first" lang="ta">${esc(clean(L.lines[0].join(' ')))}</span><span class="meta">${esc(L.theme)} <span class="chip">${esc(L.gram.t)}</span></span></span>
+    <span class="mark" aria-label="${d?'Learned':'Not learned yet'}">${d?CHECK:''}</span></a>`;
+}
+
+/* ───────────── lesson ───────────── */
+let LQ=[],selCir=null;
+function segHTML(){
+  return `<span class="seg-wrap"><span class="seg-label">Reading guide</span><span class="seg" role="group" aria-label="Reading guide">${[['spoken','Spoken'],['iso','Precise'],['off','Off']].map(([k,l])=>`<button type="button" data-tr="${k}" aria-pressed="${prefs.tr===k}">${l}</button>`).join('')}</span></span>`;
+}
+function renderLesson(L){
+  selCir=null;
+  const prev=LESSONS[L.i-1],next=LESSONS[L.i+1],pal=PAL(L.n),d=isDone(L.n);
+  let idx=0;
+  const cirs=L.lines.map(line=>`<div class="k-line">${line.map(c=>{const i=idx++;return `<button type="button" class="cir" data-c="${i}" aria-pressed="false"><span class="cir-ta" lang="ta">${esc(clean(c))}</span><span class="cir-tr tr">${esc(tr(c))}</span></button>`}).join('')}</div>`).join('');
+  const nCards=CARD_WORDS.filter(w=>w.Ls.includes(L)).length;
+  LQ=lessonQuestions(L);
+  app.innerHTML=`
+  <nav class="crumbs"><a href="#learn">← All lessons</a><span class="muted tnum">Lesson ${L.i+1} of ${LESSONS.length}</span></nav>
+  <header class="l-head">
+    <p class="eyebrow">${ta(pal.ta)} · ${ta('அதிகாரம் '+L.ch[0])} · ${ta(L.ch[1])}</p>
+    <h1>${esc(L.theme)}</h1>
+    <p class="muted">Kural ${L.n}, from chapter ${L.ch[0]}: ${esc(L.ch[2])}</p>
+  </header>
+  <div class="leaf"><span class="folio" title="Kural ${L.n} in Tamil numerals">${taNum(L.n)}<small>${L.n}</small></span>${cirs}</div>
+  <p class="meter">Two lines, seven feet (${ta('சீர்')}): four, then three. Tap a foot to see the words inside it.</p>
+  <div class="cir-info" id="cirInfo" hidden></div>
+  <div class="toolbar">
+    <button type="button" class="btn spk" data-say="${esc(L.cirs.join(' '))}">${SPK} Listen</button>
+    <button type="button" class="btn" id="splitBtn" aria-pressed="${prefs.split}">Split into words</button>
+    <span class="grow"></span>${segHTML()}
+  </div>
+  <div class="split" id="split" ${prefs.split?'':'hidden'}>
+    <p class="split-ta" lang="ta">${esc(L.split)}</p>
+    <p class="tr" style="margin:0 0 .3rem">${esc(tr(L.split))}</p>
+    <p class="muted small" style="margin:0">${ta('பதம் பிரித்தது')}: the same kural with its sandhi undone, one word at a time.</p>
+  </div>
+
+  <section class="sec">
+    <p class="eyebrow">${ta('சொற்பொருள்')} · Word by word</p>
+    <h2>What each word means</h2>
+    <div class="words">${L.words.map(w=>`<div class="w" data-cs="${w.cs.join(',')}">
+      <div class="w-left"><span class="w-ta" lang="ta">${esc(w.t)}</span><span class="w-tr tr">${esc(tr(w.t))}</span></div>
+      <div class="w-right"><p class="w-g">${esc(w.g)}</p><p class="w-n">${esc(w.n)}</p><p class="w-m"><span class="label">Today</span>${ta(w.m)}</p></div>
+      ${isAffix(w)?'<span></span>':`<button type="button" class="icon spk" data-say="${esc(w.t)}" aria-label="Hear ${esc(w.t)}">${SPK}</button>`}
+    </div>`).join('')}</div>
+  </section>
+
+  <section class="sec">
+    <p class="eyebrow">${ta('பொருள்')} · Meaning</p>
+    <h2>The couplet in plain words</h2>
+    <p class="en-mean">${esc(L.en)}</p>
+    <div class="modern">
+      <span class="label">In today's Tamil</span>
+      <p class="ta-prose" lang="ta">${esc(L.ta)}</p>
+      <p class="tr small">${esc(tr(L.ta))}</p>
+      <button type="button" class="btn small spk" data-say="${esc(L.ta)}">${SPK} Listen</button>
+    </div>
+  </section>
+
+  <section class="sec">
+    <p class="eyebrow">${ta('இலக்கணம்')} · Grammar</p>
+    <h2>${esc(L.gram.t)}</h2>
+    <p class="gram-b">${esc(L.gram.b)}</p>
+    <div class="ex">${L.gram.ex.map(([a,b])=>`<div class="ex-row"><span class="ex-ta"><span lang="ta">${esc(a)}</span><span class="tr">${esc(tr(a))}</span></span><span class="ex-en">${esc(b)}</span></div>`).join('')}</div>
+  </section>
+
+  <section class="sec">
+    <p class="eyebrow">${ta('பயிற்சி')} · Check yourself</p>
+    <h2>Three quick questions</h2>
+    <div>${LQ.map((q,i)=>qHTML(q,i,'l')).join('')}</div>
+    <div class="done-box" id="doneBox">${doneBoxHTML(L,d,nCards)}</div>
+  </section>
+
+  <section class="sec ask">
+    <p class="eyebrow">${ta('கேள்')} · Ask</p>
+    <h2>Ask Claude about this kural</h2>
+    <div class="chips">${ASK_CHIPS.map(c=>`<button type="button" class="chip-btn" data-ask="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+    <form class="ask-row" id="askForm"><input id="askIn" type="text" autocomplete="off" placeholder="Your own question, in English or Tamil"><button class="btn primary" type="submit">Ask</button></form>
+    <div class="answer" id="askOut" hidden></div>
+    <div class="actions" style="margin-top:8px"><button type="button" class="btn small" id="askStop" hidden>Stop</button></div>
+    <p class="ask-note">Answers use your own Claude account and can be wrong; check anything surprising against the notes above.</p>
+  </section>
+
+  <nav class="pager">
+    ${prev?`<a href="#k${prev.n}"><small>← Lesson ${prev.i+1}</small><span lang="ta">${esc(clean(prev.lines[0][0]))}…</span></a>`:''}
+    ${next?`<a class="next" href="#k${next.n}"><small>Lesson ${next.i+1} →</small><span lang="ta">${esc(clean(next.lines[0][0]))}…</span></a>`:''}
+  </nav>`;
+}
+function doneBoxHTML(L,d,n){
+  return d?`<button type="button" class="btn primary" disabled>${CHECK} Learned</button><span>Its ${n} words are in your practice deck.</span><button type="button" class="linkbtn" data-act="undo">Undo</button>`
+          :`<button type="button" class="btn primary" data-act="learn">Mark as learned</button><span>Adds ${n} words to your practice deck.</span>`;
+}
+function selectCir(i){
+  const L=cur;selCir=selCir===i?null:i;
+  $$('.cir').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.c===selCir)));
+  $$('.w').forEach(w=>w.classList.toggle('hl',selCir!==null&&w.dataset.cs.split(',').map(Number).includes(selCir)));
+  const box=$('#cirInfo');
+  if(selCir===null){box.hidden=true;return}
+  const ws=L.words.filter(w=>w.cs.includes(selCir));
+  box.innerHTML=`<span lang="ta" style="font-weight:600">${esc(clean(L.cirs[selCir]))}</span><span class="plus">=</span>`+ws.map(w=>`<span class="bit"><span lang="ta">${esc(w.t)}</span> <span class="tr">${esc(tr(w.t))}</span> <span class="muted">'${esc(w.g)}'</span></span>`).join('<span class="plus">+</span>');
+  box.hidden=false;
+}
+
+/* ───────────── questions ───────────── */
+function distinct(pool,n,key,exclude){const seen=new Set(exclude),out=[];for(const x of shuffle(pool)){const k=key(x);if(seen.has(k))continue;seen.add(k);out.push(x);if(out.length===n)break}return out}
+function qMeaning(w,L){
+  const ds=distinct(CARD_WORDS.filter(x=>x.t!==w.t),3,x=>x.g,[w.g]).map(x=>x.g);
+  const opts=shuffle([w.g,...ds]);
+  return {prompt:`What does <span class="ta-in" lang="ta">${esc(w.t)}</span> mean in Kural ${L.n}?`,opts,ans:opts.indexOf(w.g),explain:esc(w.n)};
+}
+function qScript(w){
+  const fn=prefs.tr==='iso'?isoWord:spokenWord,right=fn(w.t);
+  const ds=distinct(CARD_WORDS.filter(x=>x.t!==w.t),3,x=>fn(x.t),[right]).map(x=>fn(x.t));
+  const opts=shuffle([right,...ds]);
+  return {prompt:'How do you read this word?',big:w.t,opts,ans:opts.indexOf(right),explain:`${ta(w.t)} is read <em>${esc(right)}</em> and means '${esc(w.g)}'.`};
+}
+function qComplete(L){
+  const c=Math.floor(Math.random()*7),right=clean(L.cirs[c]);
+  const others=LESSONS.filter(x=>x!==L).flatMap(x=>x.cirs.map(clean));
+  const opts=shuffle([right,...distinct(others,3,x=>x,[right])]);
+  let k=0;
+  const kural=L.lines.map(line=>line.map(()=>{const i=k++;return i===c?'<span class="blank" aria-label="missing foot"></span>':esc(clean(L.cirs[i]))}).join(' ')).join('<br>');
+  return {prompt:`Which foot completes Kural ${L.n}?`,kural,opts,lang:'ta',ans:opts.indexOf(right),explain:`The whole kural: ${ta(L.cirs.map(clean).join(' '))}`};
+}
+function qWhich(L){
+  const first=x=>clean(x.lines[0].join(' '));
+  const ds=distinct(LESSONS.filter(x=>x!==L),3,first,[]).map(first);
+  const opts=shuffle([first(L),...ds]);
+  return {prompt:`Which kural says this?`,quote:L.en,opts,lang:'ta',ans:opts.indexOf(first(L)),explain:`That is Kural ${L.n}: ${esc(L.theme.toLowerCase())}.`};
+}
+function lessonQuestions(L){
+  const ws=shuffle(CARD_WORDS.filter(w=>w.Ls.includes(L))).slice(0,2).map(c=>inLesson(c,L));
+  return [...ws.map(w=>qMeaning(w,L)),qComplete(L)];
+}
+function qHTML(q,qi,g){
+  return `<div class="q" data-g="${g}" data-qi="${qi}">
+    <p class="q-prompt">${q.prompt}</p>
+    ${q.big?`<p class="q-big" lang="ta">${esc(q.big)}</p>`:''}
+    ${q.kural?`<p class="q-kural" lang="ta">${q.kural}</p>`:''}
+    ${q.quote?`<p class="en-mean" style="font-size:1.05rem">“${esc(q.quote)}”</p>`:''}
+    <div class="opts">${q.opts.map((o,i)=>`<button type="button" class="opt" data-g="${g}" data-qi="${qi}" data-i="${i}"${q.lang?` lang="${q.lang}"`:''}>${esc(o)}</button>`).join('')}</div>
+    <p class="q-fb" aria-live="polite"></p>
+  </div>`;
+}
+function answer(btn){
+  const g=btn.dataset.g,qi=+btn.dataset.qi,i=+btn.dataset.i,box=btn.closest('.q');
+  if(box.dataset.done)return;box.dataset.done='1';
+  const q=g==='l'?LQ[qi]:P.quiz.qs[qi],ok=i===q.ans;
+  $$('.opt',box).forEach((b,j)=>{b.disabled=true;if(j===q.ans)b.classList.add('right')});
+  if(!ok)btn.classList.add('wrong');
+  $('.q-fb',box).innerHTML=`<strong>${ok?'Right.':'Not quite.'}</strong> ${q.explain||''}`;
+  if(g==='p'){if(ok)P.quiz.score++;P.quiz.log.push({q,ok});$('#quizNext').hidden=false;$('#quizNext').focus()}
+}
+
+/* ───────────── ask Claude ───────────── */
+const ASK_CHIPS=["How would I say this in everyday spoken Tamil?","Give me three simple sentences that use words from this kural.","Walk me through the sandhi in this kural.","Which of these words will I still hear today?"];
+let askCtl=null;
+function askPrompt(L,q){
+  return `You are a patient Tamil tutor. The learner is a heritage speaker relearning Tamil through the Thirukkural. They can follow some Tamil but are rebuilding reading and grammar.
+
+Answer their question about the kural below in under 220 words unless they ask for more. Write every Tamil word in Tamil script followed by a romanized reading in parentheses, for example கற்க (karka). Explain in plain English. When you give spoken or colloquial Tamil, say so. If commentators disagree about a reading, say so briefly. Use short paragraphs or a short list; no headings.
+
+Kural ${L.n} (chapter ${L.ch[0]}, ${L.ch[1]} / ${L.ch[2]}):
+${L.lines.map(l=>clean(l.join(' '))).join('\n')}
+
+Words split out: ${L.split}
+Word glosses: ${L.words.map(w=>`${w.t} = ${w.g}`).join('; ')}
+Meaning: ${L.en}
+Modern Tamil: ${L.ta}
+
+Learner's question: ${q}`;
+}
+function renderAnswer(el,text){
+  const blocks=esc(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').split(/\n{2,}/);
+  el.innerHTML=blocks.map(b=>{
+    const lines=b.split('\n');
+    if(lines.every(l=>/^\s*([-*•]|\d+\.)\s+/.test(l)))return '<ul>'+lines.map(l=>'<li>'+l.replace(/^\s*([-*•]|\d+\.)\s+/,'')+'</li>').join('')+'</ul>';
+    return '<p>'+lines.join('<br>')+'</p>';
+  }).join('');
+}
+async function ask(q){
+  const L=cur,out=$('#askOut'),stop=$('#askStop');
+  if(!sample||!q.trim()||!out)return;
+  if(askCtl)askCtl.abort();
+  const ctl=new AbortController();askCtl=ctl;
+  out.hidden=false;out.innerHTML=`<p class="muted">Thinking about “${esc(q)}”…</p>`;stop.hidden=false;
+  try{
+    const r=await sample(askPrompt(L,q),{signal:ctl.signal,onText:({text})=>renderAnswer(out,text)});
+    renderAnswer(out,r.text);
+    if(r.truncated)out.insertAdjacentHTML('beforeend','<p class="muted small">The answer was cut short. Ask a narrower question for the rest.</p>');
+  }catch(e){
+    const code=e&&e.code;
+    if(code==='cancelled'){if(e.text)renderAnswer(out,e.text);else out.hidden=true}
+    else if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(code)){sample=null;document.body.classList.remove('has-ask')}
+    else{
+      const msg=code==='rate_limited'?'Too many questions for now. Try again in a little while.':code==='session_expired'?'Sign in to Claude again, then ask.':code==='refused'?'Claude could not answer that one. Try asking it another way.':'The answer did not come through. Try again.';
+      if(e&&e.text&&code!=='refused'){renderAnswer(out,e.text);out.insertAdjacentHTML('beforeend',`<p class="muted small">${esc(msg)}</p>`)}else out.innerHTML=`<p>${esc(msg)}</p>`;
+    }
+  }finally{if(askCtl===ctl){stop.hidden=true;askCtl=null}}
+}
+
+/* ───────────── letters ───────────── */
+let selCons='க';
+const MEI=[['வல்லினம்','hard','கசடதபற'],['மெல்லினம்','soft, nasal','ஙஞணநமன'],['இடையினம்','in between','யரலவழள']];
+const TRICKY=[
+ {h:'ல · ள · ழ',t:'Three l sounds. ல: tongue tip just behind the upper teeth. ள: curl the tip back and touch the roof of the mouth. ழ: curl further back and do not touch; this is the zh in தமிழ்.',ex:[['வலி','pain'],['வளி','wind'],['வழி','way, path']]},
+ {h:'ந · ன · ண',t:'ந and ன sound nearly alike; ந mostly starts a word and ன ends it, as in நான். ண is the curled-back n.',ex:[['நான்','I'],['மனம்','mind'],['மணம்','fragrance']]},
+ {h:'ர · ற',t:'ர is a light tap. ற is firmer, close to a trill. Doubled, ற்ற sounds like tr, and ன்ற like ndr.',ex:[['அரம்','a file (tool)'],['அறம்','virtue'],['நன்றி','thanks']]}
+];
+function renderLetters(){
+  const iso=isoWord,sp=spokenWord;
+  app.innerHTML=`
+  <header class="l-head">
+    <p class="eyebrow">${ta('எழுத்து')} · Letters</p>
+    <h1>Life, body, and the letter in between</h1>
+    <p class="lede">Tamil grammar calls vowels ${ta('உயிர்')} (life) and consonants ${ta('மெய்')} (body). Join them and you get ${ta('உயிர்மெய்')}, a body with life in it, like ${ta('கா')}. Twelve vowels, eighteen consonants, 216 combinations and one ${ta('ஃ')} make the 247 letters. Where your device can speak Tamil, tap a letter to hear it.</p>
+  </header>
+
+  <section class="sec" style="margin-top:28px">
+    <p class="eyebrow">${ta('உயிர் எழுத்து')} · Vowels</p>
+    <h2>Twelve vowels</h2>
+    <div class="tiles uyir">${VOWELS.map((v,i)=>{const long=[1,3,5,7,8,10,11].includes(i);return `<button type="button" class="tile${long?' long':''}" data-say="${v}"><span class="big" lang="ta">${v}</span><span class="tl">${V_ISO[i]}${V_SP[i]!==V_ISO[i]?' · '+V_SP[i]:''}</span><span class="tag" lang="ta">${long?'நெடில்':'குறில்'}</span></button>`}).join('')}</div>
+    <p class="muted small" style="margin-top:10px">${ta('குறில்')} are short; ${ta('நெடில்')}, in colour, are long. ஐ and ஔ count as long.</p>
+  </section>
+
+  <section class="sec">
+    <p class="eyebrow">${ta('மெய் எழுத்து')} · Consonants</p>
+    <h2>Eighteen consonants in three families</h2>
+    ${MEI.map(([n,e,cs])=>`<div class="mei-row"><div class="rl"><b lang="ta">${n}</b><span class="muted">${e}</span></div><div class="tiles">${[...cs].map(c=>`<button type="button" class="tile" data-say="${c}"><span class="big" lang="ta">${c}்</span><span class="tl">${C_ISO[c]}</span></button>`).join('')}</div></div>`).join('')}
+    <p class="muted small" style="margin-top:6px">Each hard consonant sits above its nasal partner. That is why these pairs travel together in words: ${ta('ங்க ஞ்ச ண்ட ந்த ம்ப ன்ற')}. Borrowed sounds use the grantha letters ${ta('ஜ ஷ ஸ ஹ க்ஷ')}.</p>
+  </section>
+
+  <section class="sec">
+    <p class="eyebrow">${ta('உயிர்மெய்')} · Combinations</p>
+    <h2>Pick a consonant, see all twelve forms</h2>
+    <div class="cons-pick" role="group" aria-label="Consonant">${[...'கஙசஞடணதநபமயரலவழளறன'].map(c=>`<button type="button" data-cons="${c}" aria-pressed="${c===selCons}" lang="ta">${c}</button>`).join('')}</div>
+    <div class="tiles uyir" id="uyirmei">${uyirmeiTiles(selCons)}</div>
+    <p class="muted small" style="margin-top:10px">Most vowel signs are regular. The u and ū signs change shape from letter to letter (${ta('கு சு டு து மு ரு')}), so learn those by sight.</p>
+    <details><summary>See all 216 combinations</summary>
+      <div class="tablewrap"><table class="grid216"><thead><tr><th></th>${VOWELS.map(v=>`<th lang="ta">${v}</th>`).join('')}</tr></thead><tbody>${[...'கஙசஞடணதநபமயரலவழளறன'].map(c=>`<tr><td lang="ta">${c}்</td>${SIGN_LIST.map(s=>`<td lang="ta">${c+s}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    </details>
+  </section>
+
+  <section class="sec">
+    <p class="eyebrow">Sounds to watch</p>
+    <h2>The pairs that trip people up</h2>
+    <div class="tricky">${TRICKY.map(t=>`<div class="trick"><h3 lang="ta">${t.h}</h3><p>${esc(t.t)}</p>${t.ex.map(([w,g])=>`<div class="say-row"><span class="sw" lang="ta">${w}</span><span class="sg"><span class="tl" style="font-style:italic">${esc(iso(w))}</span> · ${esc(g)}</span><button type="button" class="icon spk" data-say="${w}" aria-label="Hear ${w}">${SPK}</button></div>`).join('')}</div>`).join('')}</div>
+  </section>
+
+  <section class="sec">
+    <p class="eyebrow">${ta('எண்கள்')} · Numerals</p>
+    <h2>Tamil numerals</h2>
+    <p class="muted">Every lesson's kural number is also written this way, in the corner of the leaf.</p>
+    <div class="nums">${[...'௧௨௩௪௫௬௭௮௯'].map((d,i)=>`<div><b lang="ta">${d}</b><span class="tnum">${i+1}</span></div>`).join('')}<div><b lang="ta">௰</b><span class="tnum">10</span></div><div><b lang="ta">௱</b><span class="tnum">100</span></div><div><b lang="ta">௲</b><span class="tnum">1000</span></div></div>
+  </section>`;
+}
+function uyirmeiTiles(c){
+  return SIGN_LIST.map((s,i)=>`<button type="button" class="tile${[1,3,5,7,8,10,11].includes(i)?' long':''}" data-say="${c+s}"><span class="big" lang="ta">${c+s}</span><span class="tl">${isoWord(c+s)}</span><span class="eq" lang="ta">${c}் + ${VOWELS[i]}</span></button>`).join('');
+}
+
+/* ───────────── practice ───────────── */
+const DAY=864e5,STEPS=[0,1,2,4,8,16];
+let P={cards:null,quiz:null};
+const deckWords=()=>CARD_WORDS.filter(w=>w.Ls.some(L=>isDone(L.n)));
+const dueWords=()=>{const now=Date.now();return deckWords().filter(w=>{const s=state.cards[w.id];return !s||s.d<=now})};
+function whenText(ts){const d=Math.ceil((ts-Date.now())/DAY);return d<=1?'tomorrow':`in ${d} days`}
+function renderPractice(){
+  const deck=deckWords(),due=dueWords();
+  app.innerHTML=`
+  <header class="l-head">
+    <p class="eyebrow">${ta('பயிற்சி')} · Practice</p>
+    <h1>Keep the words you've learned</h1>
+    <p class="lede">Words from every kural you mark as learned go into your deck. Cards you know come back less often; cards you miss come back soon.</p>
+  </header>
+  <div class="stats">
+    <div class="stat"><span class="num">${doneCount()}</span><span class="lab">kurals learned</span></div>
+    <div class="stat"><span class="num">${deck.length}</span><span class="lab">words in your deck</span></div>
+    <div class="stat"><span class="num">${due.length}</span><span class="lab">due for review</span></div>
+  </div>
+  <section class="sec"><p class="eyebrow">${ta('அட்டைகள்')} · Flashcards</p><h2>Review</h2><div id="cards"></div></section>
+  <section class="sec"><p class="eyebrow">${ta('வினாடி வினா')} · Quiz</p><h2>Ten quick questions</h2><div id="quiz"></div></section>`;
+  renderCards();renderQuiz();
+}
+function renderCards(){
+  const box=$('#cards');if(!box)return;
+  const S=P.cards;
+  if(!S){
+    const deck=deckWords(),due=dueWords();
+    if(!deck.length){
+      box.innerHTML=`<div class="panel"><p>Your deck is empty. Finish a lesson, mark it as learned, and its words land here.</p><div class="actions"><button type="button" class="btn primary" data-act="preview">Try the words from Kural 1</button><a class="btn" href="#k1">Go to lesson 1</a></div></div>`;
+    }else if(due.length){
+      box.innerHTML=`<div class="panel"><p>${due.length} ${due.length===1?'card is':'cards are'} ready for review.</p><div class="actions"><button type="button" class="btn primary" data-act="start">Start review</button></div></div>`;
+    }else{
+      const nextDue=Math.min(...deck.map(w=>(state.cards[w.id]||{d:0}).d));
+      box.innerHTML=`<div class="panel"><p>You're caught up. The next card comes back ${whenText(nextDue)}.</p><div class="actions"><button type="button" class="btn" data-act="all">Review all ${deck.length} anyway</button></div></div>`;
+    }
+    return;
+  }
+  if(S.i>=S.q.length){
+    box.innerHTML=`<div class="panel"><p><strong>Round finished.</strong> ${S.got} of ${S.seen} answered “Got it” on the first try.</p><div class="actions"><button type="button" class="btn" data-act="close">Done</button></div></div>`;
+    return;
+  }
+  const w=S.q[S.i],L=w.Ls.find(x=>isDone(x.n))||w.L,c=inLesson(w,L).cs[0],li=lineOf(L,c);
+  let k=li===0?0:L.lines[0].length;
+  const ctx=L.lines[li].map(f=>{const i=k++;return i===c?`<mark>${esc(clean(f))}</mark>`:esc(clean(f))}).join(' ');
+  box.innerHTML=`<div class="card">
+    <p class="card-meta tnum">Card ${S.i+1} of ${S.q.length} · Kural ${L.n}${S.preview?' · preview':''}</p>
+    <p class="card-ta" lang="ta">${esc(w.t)}</p>
+    <p class="card-ctx" lang="ta">${ctx}</p>
+    <div class="card-back" ${S.shown?'':'hidden'}>
+      <span class="tr">${esc(tr(w.t))}</span>
+      <p class="card-g">${esc(w.gs.join(' · '))}</p>
+      <p class="muted small">${esc(w.n)}</p>
+      <p class="w-m"><span class="label">Today</span>${ta(w.m)}</p>
+    </div>
+    <div class="card-actions">
+      ${S.shown?`<button type="button" class="btn" data-act="again">Again</button><button type="button" class="btn primary" data-act="got">Got it</button>`:`<button type="button" class="btn primary" data-act="show">Show meaning</button>`}
+      <button type="button" class="icon spk" data-say="${esc(w.t)}" aria-label="Hear ${esc(w.t)}">${SPK}</button>
+    </div>
+  </div>`;
+}
+function startCards(words,preview){P.cards={q:shuffle(words).slice(0,20),i:0,shown:false,preview:!!preview,got:0,seen:0,missed:new Set()};renderCards()}
+function grade(ok){
+  const S=P.cards,w=S.q[S.i],now=Date.now();
+  if(!S.missed.has(w.id)){S.seen++;if(ok)S.got++}
+  if(!S.preview){
+    const s=state.cards[w.id]||{b:0};
+    const b=ok?Math.min(5,(s.b||0)+1):0;
+    state.cards[w.id]={b,d:now+STEPS[b]*DAY,t:now};
+    persist();
+  }
+  if(!ok&&!S.missed.has(w.id)){S.missed.add(w.id);S.q.push(w)}
+  S.i++;S.shown=false;renderCards();
+}
+function renderQuiz(){
+  const box=$('#quiz');if(!box)return;
+  const Q=P.quiz;
+  if(!Q){
+    const n=doneCount();
+    box.innerHTML=`<div class="panel"><p>${n?`Questions come from the ${n} ${n===1?'kural':'kurals'} you've learned.`:'Until you mark a lesson as learned, questions come from the first three kurals.'} Meanings, reading the script, and filling in missing feet.</p><div class="actions"><button type="button" class="btn primary" data-act="quiz">Start a quiz</button></div></div>`;
+    return;
+  }
+  if(Q.i>=Q.qs.length){
+    const miss=Q.log.filter(x=>!x.ok);
+    box.innerHTML=`<div class="panel"><p class="result tnum">${Q.score} / ${Q.qs.length}</p>${miss.length?`<p class="muted">Worth another look:</p>${miss.map(x=>`<div class="miss">${x.q.big?ta(x.q.big)+' · ':''}${x.q.prompt.replace(/<[^>]+>/g,'')} <strong lang="${x.q.lang||'en'}">${esc(x.q.opts[x.q.ans])}</strong></div>`).join('')}`:'<p>Every one right.</p>'}<div class="actions" style="margin-top:12px"><button type="button" class="btn primary" data-act="quiz">New quiz</button><button type="button" class="btn" data-act="quizclose">Done</button></div></div>`;
+    return;
+  }
+  box.innerHTML=`<div class="panel"><p class="card-meta tnum">Question ${Q.i+1} of ${Q.qs.length}</p>${qHTML(Q.qs[Q.i],Q.i,'p')}<div class="actions" style="margin-top:12px"><button type="button" class="btn primary" id="quizNext" data-act="qnext" hidden>${Q.i+1<Q.qs.length?'Next question':'See results'}</button></div></div>`;
+}
+function buildQuiz(){
+  const ls=LESSONS.filter(L=>isDone(L.n));const pool=ls.length?ls:LESSONS.slice(0,3);
+  const words=shuffle(CARD_WORDS.filter(w=>w.Ls.some(L=>pool.includes(L))));
+  const qs=[];
+  words.slice(0,4).forEach(w=>{const L=w.Ls.find(x=>pool.includes(x));qs.push(qMeaning(inLesson(w,L),L))});
+  words.slice(4,7).forEach(w=>qs.push(qScript(w)));
+  for(let i=0;i<2;i++)qs.push(qComplete(pool[Math.floor(Math.random()*pool.length)]));
+  qs.push(qWhich(pool[Math.floor(Math.random()*pool.length)]));
+  return shuffle(qs);
+}
+
+/* ───────────── events ───────────── */
+app.addEventListener('click',e=>{
+  const t=e.target;
+  const s=t.closest('[data-say]');if(s){say(s.dataset.say);return}
+  const opt=t.closest('.opt');if(opt){answer(opt);return}
+  const cir=t.closest('.cir');if(cir){selectCir(+cir.dataset.c);return}
+  const trb=t.closest('[data-tr]');if(trb){prefs.tr=trb.dataset.tr;savePrefs();const y=window.scrollY;render(false);window.scrollTo(0,y);return}
+  if(t.closest('#splitBtn')){prefs.split=!prefs.split;savePrefs();$('#split').hidden=!prefs.split;$('#splitBtn').setAttribute('aria-pressed',String(prefs.split));return}
+  const cons=t.closest('[data-cons]');if(cons){selCons=cons.dataset.cons;$$('[data-cons]').forEach(b=>b.setAttribute('aria-pressed',String(b===cons)));$('#uyirmei').innerHTML=uyirmeiTiles(selCons);return}
+  const chip=t.closest('[data-ask]');if(chip){ask(chip.dataset.ask);return}
+  if(t.closest('#askStop')){if(askCtl)askCtl.abort();return}
+  const w=t.closest('.w');if(w&&view==='lesson'){selectCir(+w.dataset.cs.split(',')[0]);return}
+  const a=t.closest('[data-act]');if(!a)return;
+  const act=a.dataset.act,now=Date.now();
+  if(act==='learn'||act==='undo'){
+    state.done[cur.n]={on:act==='learn',t:now};persist();
+    $('#doneBox').innerHTML=doneBoxHTML(cur,act==='learn',CARD_WORDS.filter(x=>x.L===cur).length);
+  }
+  else if(act==='preview')startCards(CARD_WORDS.filter(x=>x.Ls.includes(LESSONS[0])),true);
+  else if(act==='start')startCards(dueWords());
+  else if(act==='all')startCards(deckWords());
+  else if(act==='show'){P.cards.shown=true;renderCards();const g=$('[data-act="got"]');g&&g.focus()}
+  else if(act==='got')grade(true);
+  else if(act==='again')grade(false);
+  else if(act==='close'){P.cards=null;renderPractice()}
+  else if(act==='quiz'){P.quiz={qs:buildQuiz(),i:0,score:0,log:[]};renderQuiz()}
+  else if(act==='qnext'){P.quiz.i++;renderQuiz();const o=$('#quiz .opt');o&&o.focus()}
+  else if(act==='quizclose'){P.quiz=null;renderQuiz()}
+});
+app.addEventListener('submit',e=>{if(e.target.id==='askForm'){e.preventDefault();const v=$('#askIn').value;if(v.trim())ask(v)}});
+document.addEventListener('keydown',e=>{
+  if(view!=='practice'||!P.cards||e.target.closest('input,textarea'))return;
+  const S=P.cards;if(S.i>=S.q.length)return;
+  if(!S.shown&&(e.key===' '||e.key==='Enter')){e.preventDefault();S.shown=true;renderCards()}
+  else if(S.shown&&e.key==='1')grade(false);
+  else if(S.shown&&e.key==='2')grade(true);
+});
+
+route();
+initSpeech();
+initRemote();
+</script>
